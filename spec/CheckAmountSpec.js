@@ -12,6 +12,9 @@ describe("When CheckAmount is instantiated with ", function () {
           expect(new CheckAmount("2").toString()).toEqual("two dollars");
       })
 
+      it("should return \"three dollars\" when given value is 3", function () {
+          expect(new CheckAmount("3").toString()).toEqual("three dollars");
+      })
   });
 
 
