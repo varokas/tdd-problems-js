@@ -2,22 +2,14 @@
 
 describe("When CheckAmount is instantiated with ", function () {
 
-  describe("\"1\"", function () {
+  describe("only units digit", function () {
 
-      var checkAmount = new CheckAmount("1");
-
-      it("should return \"one dollar\"", function () {
-          expect(checkAmount.toString()).toEqual("one dollar");
+      it("should return \"one dollar\" when given value is 1", function () {
+          expect(new CheckAmount("1").toString()).toEqual("one dollar");
       })
 
-  });
-
-  describe("\"2\"", function () {
-
-      var checkAmount = new CheckAmount("2");
-
-      it("should return \"two dollars\"", function () {
-          expect(checkAmount.toString()).toEqual("two dollars");
+      it("should return \"two dollars\" when given value is 2", function () {
+          expect(new CheckAmount("2").toString()).toEqual("two dollars");
       })
 
   });
