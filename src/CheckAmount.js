@@ -3,10 +3,11 @@ function CheckAmount(value) {
 }
 
 CheckAmount.prototype.toString = function () {
-    if (this.value === '1')
-       return "one dollar";
-    else if (this.value === '2')
-       return "two dollars";
-    else 
-       return "three dollars";
+	var numberText = {
+		'1': 'one dollar',
+		'2': 'two dollars',
+		'3': 'three dollars'
+	}
+
+	return numberText[this.value]
 }
