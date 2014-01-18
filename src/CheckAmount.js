@@ -1,7 +1,9 @@
 CheckAmount = (function() {
 
-    function CheckAmount(value) {
-        this.value = value;
+    var value;
+
+    function CheckAmount(val) {
+        value = val;
     }
 
     var numberText = {
@@ -27,15 +29,15 @@ CheckAmount = (function() {
     }
 
     var isOne = function () {
-        return this.value !== '1';
+        return value === '1';
     }
 
-    CheckAmount.prototype.GetCurrency = function () {
-        return isOne() ? 'dollars' : 'dollar'
+    var getCurrency = function () {
+        return isOne() ? 'dollar' : 'dollars'
     }
 
     CheckAmount.prototype.toString = function () {
-        return numberText[this.value] + " " + this.GetCurrency();
+        return numberText[value] + " " + getCurrency();
     }
 
     return CheckAmount;
