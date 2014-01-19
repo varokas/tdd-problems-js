@@ -41,4 +41,24 @@ describe("When CheckAmount is instantiated with ", function () {
       });
   });
 
+    describe("other ten numbers", function () {
+      [
+        { word: "twenty dollars", number: "20" },
+        { word: "thirty one dollars", number: "31" },
+        { word: "fourty two dollars", number: "42" },
+        { word: "fifty three dollars", number: "53" },
+        { word: "sixty four dollars", number: "64" },
+        { word: "seventy five dollars", number: "75" },
+        { word: "eighty six dollars", number: "86" },
+        { word: "ninety seven dollars", number: "97" },
+        { word: "twenty eight dollars", number: "28" },
+        { word: "thirty nine dollars", number: "39" },
+      ]
+      .forEach(function (e) {
+          it("should return \"" + e.word + "\" when given value is " + e.number, function () {
+              expect(new CheckAmount(e.number).toString()).toEqual(e.word);
+          });
+      });
+  });
+
 });
