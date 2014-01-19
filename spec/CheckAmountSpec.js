@@ -61,4 +61,10 @@ describe("When CheckAmount is instantiated with ", function () {
       });
   });
 
+  describe("thousands", function() {
+    it("should return \"one thousand dollars\" when given value is 1000", function() {
+      expect(new CheckAmount(1000).toString()).toEqual("one thousand dollars");
+    });
+  });
+
 });
