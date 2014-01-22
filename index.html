@@ -27,13 +27,10 @@
         {name: "Pongneng", imgUrl:"http://www.gravatar.com/avatar/3cd99fdaa991ca644645de202a1623c5.jpg?s=64"}
 			];
 
-
-
 			$(document).ready(function() {
 				createCircle("#spCheckTurns", spCheckPlayers, spCheckCurrent);
 				createCircle("#pokerTurns", pokerPlayers, pokerCurrent);
 			});
-
 
 				function createCircle(svg, players, current) {
 					var svg = d3.select(svg);
