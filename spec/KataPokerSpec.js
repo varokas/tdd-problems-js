@@ -18,7 +18,7 @@ describe("PokerGame", function () {
 			{rank : '7',  suite : 'C', score : 7  },
 			{rank : '8',  suite : 'C', score : 8  },
 			{rank : '9',  suite : 'C', score : 9  },
-			{rank : '10', suite : 'C', score : 10 },
+			{rank : 'T', suite : 'C', score : 10 },
 			{rank : 'J',  suite : 'C', score : 11 },
 			{rank : 'Q',  suite : 'C', score : 12 },
 			{rank : 'K',  suite : 'C', score : 13 },
