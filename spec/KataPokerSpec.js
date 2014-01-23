@@ -39,9 +39,9 @@ describe("PokerGame", function () {
 
     describe('Player', function() {
         it("can show highest score in player hand", function() {
-          var black = new Player('Black', ['2H', '3D', '5S', '9C', 'KD']);
-          expect(black.nextHighest()).toEqual(13);
-          expect(black.nextHighest()).toEqual(9);
+            var black = new Player('Black', ['2H', '3D', '5S', '9C', 'KD']);
+            expect(black.nextHighest()).toEqual(13);
+            expect(black.nextHighest()).toEqual(9);
         });
     });
 });
