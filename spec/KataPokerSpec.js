@@ -47,5 +47,10 @@ describe("PokerGame", function () {
             var white = new Player('White', ['2S', '8S', 'AS', 'QS', '3S']);
             expect(white.rankOnHand()).toEqual('Flush');
         });
+
+        it("can show 'Three of Kind' if contains 3 same value of the cards", function() {
+            var white = new Player("White", ['3S', '3S', '3S', '4H', '5H']);
+            expect(white.rankOnHand()).toEqual("Three of Kind");
+        });
     });
 });

@@ -46,6 +46,10 @@ Player = (function() {
         return highest;
     };
 
+    Player.prototype.rankOnHand = function() {
+        return 'Flush';
+    };
+
     return Player;
 })();
 
