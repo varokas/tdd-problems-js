@@ -1,136 +1,147 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>TDD Problems in JS</title>
-    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"></link>
+    <head>
+        <title>TDD Problems in JS</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"></link>
 
-		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-		<style>
-			body {
-				padding: 1em;
-			}
-		</style>
-		<script type="text/javascript">
-			//Use http://asaph.org/gravatar/ to generate gravatar image url
-			var spCheckCurrent = "Sarawut";
-			var spCheckPlayers = [
-				{name: "Sarawut", imgUrl:"http://www.gravatar.com/avatar/7e82a64e87140a3e0eb0eeca115780e3.jpg?s=64"},
-				{name: "Salah", imgUrl:"https://identicons.github.com/547fd894e6df47f8bc6162c2f582c274.png"},
-				{name: "Arm", imgUrl:"http://www.gravatar.com/avatar/773553bf2766f478a36055d307266c53.jpg?s=64"}
-			];
+        <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <style>
+            body {
+                padding: 1em;
+            }
+        </style>
+        <script type="text/javascript">
+            //Use http://asaph.org/gravatar/ to generate gravatar image url
+            var spCheckCurrent = "Sarawut";
+            var spCheckPlayers = [
+                {name: "Sarawut", imgUrl:"http://www.gravatar.com/avatar/7e82a64e87140a3e0eb0eeca115780e3.jpg?s=64"},
+                {name: "Salah", imgUrl:"https://identicons.github.com/547fd894e6df47f8bc6162c2f582c274.png"},
+                {name: "Arm", imgUrl:"http://www.gravatar.com/avatar/773553bf2766f478a36055d307266c53.jpg?s=64"}
+            ];
 
-			var pokerCurrent = "Salah";
-			var pokerPlayers = [
-				{name: "Salah", imgUrl:"https://identicons.github.com/547fd894e6df47f8bc6162c2f582c274.png"},
-				{name: "Varokas", imgUrl:"http://www.gravatar.com/avatar/ebc639a4ab6f2ab8535fffd98cb2aef0.jpg?s=64"},
-        {name: "Pongneng", imgUrl:"http://www.gravatar.com/avatar/3cd99fdaa991ca644645de202a1623c5.jpg?s=64"}
-			];
+            var pokerCurrent = "Arm";
+            var pokerPlayers = [
+                {name: "Salah", imgUrl:"https://identicons.github.com/547fd894e6df47f8bc6162c2f582c274.png"},
+                {name: "Varokas", imgUrl:"http://www.gravatar.com/avatar/ebc639a4ab6f2ab8535fffd98cb2aef0.jpg?s=64"},
+                {name: "Pongneng", imgUrl:"http://www.gravatar.com/avatar/3cd99fdaa991ca644645de202a1623c5.jpg?s=64"},
+                {name: "Arm", imgUrl:"http://www.gravatar.com/avatar/773553bf2766f478a36055d307266c53.jpg?s=64"}
+            ];
 
-			$(document).ready(function() {
-				createCircle("#spCheckTurns", spCheckPlayers, spCheckCurrent);
-				createCircle("#pokerTurns", pokerPlayers, pokerCurrent);
-			});
+            $(document).ready(function() {
+                createCircle("#spCheckTurns", spCheckPlayers, spCheckCurrent);
+                createCircle("#pokerTurns", pokerPlayers, pokerCurrent);
+            });
 
-				function createCircle(svg, players, current) {
-					var svg = d3.select(svg);
-					var bgCircle = svg.append("circle")
-						.attr("style", "fill: none; stroke:#000000;")
-						.attr("cx", 185)
-						.attr("cy", 155)
-						.attr("r", 150);
-
-
-					var circleGroup = svg
-						.append("g")
-						.attr("transform", "translate(150,120)");
+            function createCircle(svg, players, current) {
+                var svg = d3.select(svg);
+                var bgCircle = svg.append("circle")
+                    .attr("style", "fill: none; stroke:#000000;")
+                    .attr("cx", 185)
+                    .attr("cy", 155)
+                    .attr("r", 150);
 
 
-					var arc = d3.svg.arc()
-						.innerRadius(140)
-						.outerRadius(150);
+                var circleGroup = svg.append("g")
+                    .attr("transform", "translate(150,120)");
 
-					var pie = d3.layout.pie()
-						.value(function(d) { return 1; });
 
-					var arcs = circleGroup.selectAll("g")
-						.data(pie(players))
-						.enter()
-						.append("g")
-						.attr("transform", function(d) { console.log(d); return "translate(" + arc.centroid(d) + ")"; });
+                var arc = d3.svg.arc()
+                    .innerRadius(140)
+                    .outerRadius(150);
 
-					arcs.append("image")
-						.attr("xlink:href", function(d) { return d.data.imgUrl; })
-						.attr("x", 0)
-						.attr("y", 0)
-						.attr("height", "64px")
-						.attr("width", "64px")
-						.attr("style", "mask: url(#circleMask)");
+                var pie = d3.layout.pie().value(function(d) {
+                    return 1;
+                });
 
-					arcs.append("circle")
-						.attr("cx", 32)
-						.attr("cy", 32)
-						.attr("r", 32)
-						.attr("style", function(d) { return "stroke:#ff0000; fill: none; stroke-width:" + ((current == d.data.name) ? "4px" : "0px"); });
+                var arcs = circleGroup.selectAll("g")
+                    .data(pie(players))
+                    .enter()
+                    .append("g")
+                    .attr("transform", function(d) {
+                        console.log(d);
+                        return "translate(" + arc.centroid(d) + ")";
+                    });
 
-					arcs.append("text")
-						.attr("x",32)
-						.attr("y",86)
-						.attr("text-anchor", "middle")
-						.attr("fill", "black")
-						.text(function(d, i) { return d.data.name; });
-				}
-		</script>
-	</head>
-	<body>
-		<h2>TDD Problems in JS</h2>
-		<h3>Rules</h3>
-		<ol>
-			<li>This is a tennis TDD. A player have to solve the failing test(s) without breaking the previous tests, then write another failing test for the next player.</li>
-			<li>Player's turn is circulated as in the player list in next section.</li>
-			<li>Anyone interested, please join by creating <a href="https://github.com/varokas/tdd-problems-js/issues">an issue in github. I will add you to committers</a></li>
-		</ol>
-		<h3>How to play and take turns</h3>
-		<ul>
-			<li>Red -> Green -> Refactor</li>
-			<li>Edit this index.html page, line 16 to point to next player.</li>
-			<li>Checks-in/merge code. (pull requests are fine, but please merge them in by yourself. it's faster that way so that you don't have to wait for me to merge.)</li>
-			<li>check that red circle should be on next player <a href="http://varokas.github.io/tdd-problems-js/">here</a></li>
-			<li>check that only your intended tests are failing <a href="http://varokas.github.io/tdd-problems-js/SpecRunner.html">here</a></li>
-			<li>Notify next player in fb discussion thread</li>
-		</ul>
-		<div style="float:left; width: 450px;;">
-			<h3>Spell out check amount problem</h3>
-			<ul>
-				<li><a href="https://sites.google.com/site/tddproblems/all-problems-1/spell-out-check-amount">Specification</a></li>
-				<li><a href="SpecRunner.html">SpecRunner</a></li>
-				<li><a href="https://www.facebook.com/groups/agile66/permalink/10152121944261998/?stream_ref=2">Discussion Thread</a></li>
-			</ul>
-			<svg id="spCheckTurns" width="380" height="350">
-				<defs>
-				  <mask id="circleMask" x="0" y="0" width="64" height="64" >
-				    <circle cx="32" cy="32" r="32" style="stroke:none; fill: #ffffff"/>
-				  </mask>
-				</defs>
-			</svg>
-		</div>
-		<div style="float:left; width: 450px;">
-			<h3>KataPokerHands</h3>
-			(timeout = 48 hrs)
-			<ul>
-				<li><a href="http://codingdojo.org/cgi-bin/wiki.pl?KataPokerHands">Specification</a></li>
-				<li><a href="PokerSpecRunner.html">SpecRunner</a></li>
-				<li><a href="https://www.facebook.com/groups/agile66/permalink/10152121938106998/?stream_ref=2">Discussion Thread</a></li>
-			</ul>
-			<svg id="pokerTurns" width="380" height="350">
-				<defs>
-				  <mask id="circleMask" x="0" y="0" width="64" height="64" >
-				    <circle cx="32" cy="32" r="32" style="stroke:none; fill: #ffffff"/>
-				  </mask>
-				</defs>
-			</svg>
-		</div>
-		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-	</body>
+                arcs.append("image")
+                    .attr("xlink:href", function(d) {
+                        return d.data.imgUrl;
+                    })
+                    .attr("x", 0)
+                    .attr("y", 0)
+                    .attr("height", "64px")
+                    .attr("width", "64px")
+                    .attr("style", "mask: url(#circleMask)");
+
+                arcs.append("circle")
+                    .attr("cx", 32)
+                    .attr("cy", 32)
+                    .attr("r", 32)
+                    .attr("style", function(d) {
+                        return "stroke:#ff0000; fill: none; stroke-width:" +
+                            ((current == d.data.name) ? "4px" : "0px");
+                    });
+
+                arcs.append("text")
+                    .attr("x",32)
+                    .attr("y",86)
+                    .attr("text-anchor", "middle")
+                    .attr("fill", "black")
+                    .text(function(d, i) {
+                        return d.data.name;
+                    });
+            }
+        </script>
+    </head>
+    <body>
+        <h2>TDD Problems in JS</h2>
+        <h3>Rules</h3>
+        <ol>
+            <li>This is a tennis TDD. A player have to solve the failing test(s) without breaking the previous tests, then write another failing test for the next player.</li>
+            <li>Player's turn is circulated as in the player list in next section.</li>
+            <li>Anyone interested, please join by creating <a href="https://github.com/varokas/tdd-problems-js/issues">an issue in github. I will add you to committers</a></li>
+        </ol>
+        <h3>How to play and take turns</h3>
+        <ul>
+            <li>Red -> Green -> Refactor</li>
+            <li>Edit this index.html page, line 16 to point to next player.</li>
+            <li>Checks-in/merge code. (pull requests are fine, but please merge them in by yourself. it's faster that way so that you don't have to wait for me to merge.)</li>
+            <li>check that red circle should be on next player <a href="http://varokas.github.io/tdd-problems-js/">here</a></li>
+            <li>check that only your intended tests are failing <a href="http://varokas.github.io/tdd-problems-js/SpecRunner.html">here</a></li>
+            <li>Notify next player in fb discussion thread</li>
+        </ul>
+        <div style="float:left; width: 450px;;">
+            <h3>Spell out check amount problem</h3>
+            <ul>
+                <li><a href="https://sites.google.com/site/tddproblems/all-problems-1/spell-out-check-amount">Specification</a></li>
+                <li><a href="SpecRunner.html">SpecRunner</a></li>
+                <li><a href="https://www.facebook.com/groups/agile66/permalink/10152121944261998/?stream_ref=2">Discussion Thread</a></li>
+            </ul>
+            <svg id="spCheckTurns" width="380" height="350">
+            <defs>
+            <mask id="circleMask" x="0" y="0" width="64" height="64" >
+            <circle cx="32" cy="32" r="32" style="stroke:none; fill: #ffffff"/>
+            </mask>
+            </defs>
+            </svg>
+        </div>
+        <div style="float:left; width: 450px;">
+            <h3>KataPokerHands</h3>
+            (timeout = 48 hrs)
+            <ul>
+                <li><a href="http://codingdojo.org/cgi-bin/wiki.pl?KataPokerHands">Specification</a></li>
+                <li><a href="PokerSpecRunner.html">SpecRunner</a></li>
+                <li><a href="https://www.facebook.com/groups/agile66/permalink/10152121938106998/?stream_ref=2">Discussion Thread</a></li>
+            </ul>
+            <svg id="pokerTurns" width="380" height="350">
+            <defs>
+            <mask id="circleMask" x="0" y="0" width="64" height="64" >
+            <circle cx="32" cy="32" r="32" style="stroke:none; fill: #ffffff"/>
+            </mask>
+            </defs>
+            </svg>
+        </div>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    </body>
 </html>
