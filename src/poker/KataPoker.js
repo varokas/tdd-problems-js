@@ -29,16 +29,12 @@ var CardFactory = {
     }
 };
 
-Player = (function() {
-    function Player(_name, _cards) {
-        this.name  = _name;
-        this.cards = _cards;
-    }
+Player = function Player(_name, _cards) {
+    this.name  = _name;
+    this.cards = _cards;
+};
 
-    Player.prototype.nextHighest = function() {
-       return 0;
-    };
-
-    return Player;
-})();
+Player.prototype.nextHighest = function() {
+   return 0;
+};
 
