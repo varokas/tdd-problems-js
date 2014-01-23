@@ -1,7 +1,5 @@
 Card = (function() {
 
-    var rank, suite;
-
     var _getScoreByRank = function (_rank) {
         switch(_rank) {
             case 'A': return 14;
@@ -14,12 +12,12 @@ Card = (function() {
     };
 
     function Card(_rank, _suite) {
-        rank  = _rank;
-        suite = _suite;
+        this.rank  = _rank;
+        this.suite = _suite;
     }
 
     Card.prototype.score = function() {
-       return _getScoreByRank(rank);
+       return _getScoreByRank(this.rank);
     };
 
     return Card;
@@ -27,7 +25,20 @@ Card = (function() {
 
 var CardFactory = {
     createByCode: function(code) {
-        return null;
+        return new Card(code[0], code[1]);
     }
 };
+
+Player = (function() {
+    function Player(_name, _cards) {
+        this.name  = _name;
+        this.cards = _cards;
+    }
+
+    Player.prototype.nextHighest = function() {
+       return 0;
+    };
+
+    return Player;
+})();
 
