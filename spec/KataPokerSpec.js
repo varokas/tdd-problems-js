@@ -31,8 +31,12 @@ describe("PokerGame", function () {
 		    });
 		});
 
+		it("can create card from shorthand notation", function() {
+			var card = CardFactory.createByCode("TD");
 
+			expect(card.rank).toEqual('T');
+			expect(card.suite).toEqual('D');
+		});
 
     });
-
 });
