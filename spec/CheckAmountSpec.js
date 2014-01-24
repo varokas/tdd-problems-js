@@ -68,6 +68,19 @@ describe("When CheckAmount is instantiated with ", function () {
         it("should return \"one thousand one dollars\" when given value is 1001", function() {
             expect(new CheckAmount(1001).toString()).toEqual("one thousand one dollars");
         });
+
+        it("should return \"one thousand nine dollars\" when given value is 1009", function () {
+            expect(new CheckAmount(1009).toString()).toEqual("one thousand nine dollars");
+        });
+
+        it("should return \"one thousand ten dollars\" when given value is 1010", function () {
+            expect(new CheckAmount(1010).toString()).toEqual("one thousand ten dollars");
+        });
+
+        it("should return \"one thousand hundred dollars\" when given value is 1100", function () {
+            expect(new CheckAmount(1100).toString()).toEqual("one thousand hundred dollars");
+        });
+
     });
 
 });

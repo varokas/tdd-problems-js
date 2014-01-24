@@ -32,7 +32,7 @@ CheckAmount = (function() {
 
     var thousandFilter = function(context) {
         var text = "";
-        if((context.number % 1000) == 0){
+        if((context.number / 1000) >= 1){
             text = "one thousand";
         }
         context.number -= parseInt(context.number/1000) * 1000;
