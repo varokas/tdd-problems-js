@@ -1,4 +1,4 @@
-var CardFactory = {
+CardFactory = {
     createByCode: function(code) {
         return new Card(code[0], code[1]);
     }
@@ -31,23 +31,38 @@ Card = (function() {
 Player = (function() {
     function Player(_name, _cards) {
         this.name  = _name;
-        this.cards = _cards;
+        this.cards = _cards.map(function(e) {
+            return CardFactory.createByCode(e)
+        })
+    }
 
-        this.onHandRanks = [];
-        for(card in this.cards)
-            this.onHandRanks.push(CardFactory.createByCode(this.cards[card]).score());
-        this.onHandRanks.reverse();
-    };
+    function isFlush(cards) {
+        var suite = cards[0].suite
+        return cards.every(function(e) { return e.suite === suite })
+    }
 
-    Player.prototype.nextHighest = function() {
-        highest = this.onHandRanks[0]
-        this.onHandRanks.shift()
+    function isThreeOfKind(cards) {
+        return countByRank(cards).some(function(e) { return e === 3 })
+    }
 
-        return highest;
-    };
+    function countByRank(cards) {
+        return cards.reduce(
+            function(aggr, card) {
+                var counter = aggr[card.rank] || 0
+                aggr[card.rank] = counter + 1
+                return aggr
+        }, []);
+    }
 
     Player.prototype.rankOnHand = function() {
-        return 'Flush';
+
+        if (isFlush(this.cards))
+            return 'Flush';
+
+        if (isThreeOfKind(this.cards))
+            return 'Three of a Kind'
+
+        return 'High Card'
     };
 
     return Player;

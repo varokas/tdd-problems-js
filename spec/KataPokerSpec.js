@@ -37,20 +37,20 @@ describe("PokerGame", function () {
     });
 
     describe('Player', function() {
-        it("can show highest score in player hand", function() {
-            var black = new Player('Black', ['2H', '3D', '5S', '9C', 'KD']);
-            expect(black.nextHighest()).toEqual(13);
-            expect(black.nextHighest()).toEqual(9);
-        });
 
         it("can show flush in player hand", function() {
             var white = new Player('White', ['2S', '8S', 'AS', 'QS', '3S']);
             expect(white.rankOnHand()).toEqual('Flush');
         });
 
-        it("can show 'Three of Kind' if contains 3 same value of the cards", function() {
-            var white = new Player("White", ['3S', '3S', '3S', '4H', '5H']);
-            expect(white.rankOnHand()).toEqual("Three of Kind");
+        it("can show 'Three of a Kind' if contains 3 same value of the cards", function() {
+            var white = new Player("White", ['3S', '3C', '3D', '4H', '5H']);
+            expect(white.rankOnHand()).toEqual("Three of a Kind");
+        });
+
+                it("can show 'Four of a Kind' if contains 4 same value of the cards", function() {
+            var white = new Player("White", ['3S', '3C', '3D', '4H', '3H']);
+            expect(white.rankOnHand()).toEqual("Four of a Kind");
         });
     });
 });
