@@ -61,26 +61,50 @@ describe("When CheckAmount is instantiated with ", function () {
         });
     });
 
-    describe("thousands", function() {
-        it("should return \"one thousand dollars\" when given value is 1000", function() {
-            expect(new CheckAmount(1000).toString()).toEqual("one thousand dollars");
+    describe("hundreds numbers", function () {
+        [
+            { word: "one hundred twenty dollars", number: 120 },
+            { word: "two hundred thirty one dollars", number: 231 },
+            { word: "three hundred fourty two dollars", number: 342 },
+            { word: "four hundred fifty three dollars", number: 453 },
+            { word: "five hundred sixty four dollars", number: 564 },
+            { word: "six hundred seventy five dollars", number: 675 },
+            { word: "seven hundred eighty six dollars", number: 786 },
+            { word: "eight hundred ninety seven dollars", number: 897 },
+            { word: "nine hundred twenty eight dollars", number: 928 },
+        ]
+        .forEach(function (e) {
+            it("should return \"" + e.word + "\" when given value is " + e.number, function () {
+                expect(new CheckAmount(e.number).toString()).toEqual(e.word);
+            });
         });
-        it("should return \"one thousand one dollars\" when given value is 1001", function() {
-            expect(new CheckAmount(1001).toString()).toEqual("one thousand one dollars");
-        });
+    });
 
-        it("should return \"one thousand nine dollars\" when given value is 1009", function () {
-            expect(new CheckAmount(1009).toString()).toEqual("one thousand nine dollars");
+    describe("thousands numbers", function() {
+        [
+            { word: "one thousand dollars", number: 1000 },
+            { word: "one thousand one dollars", number: 1001 },
+            { word: "one thousand nine dollars", number: 1009 },
+            { word: "one thousand ten dollars", number: 1010 },
+            { word: "one thousand one hundred dollars", number: 1100 },
+        ].forEach(function (e) {
+            it("should return \"" + e.word + "\" when given value is " + e.number, function () {
+                expect(new CheckAmount(e.number).toString()).toEqual(e.word);
+            });
         });
+    });
 
-        it("should return \"one thousand ten dollars\" when given value is 1010", function () {
-            expect(new CheckAmount(1010).toString()).toEqual("one thousand ten dollars");
+        describe("many thousands numbers", function() {
+        [
+            { word: "seven thousand dollars", number: 7000 },
+            { word: "twelve thousand dollars", number: 12000 },
+            { word: "thirty three thousand three hundred dollars", number: 33300 },
+            { word: "nine hundred two thousand three hundred fifty one dollars", number: 902351 },
+        ].forEach(function (e) {
+            it("should return \"" + e.word + "\" when given value is " + e.number, function () {
+                expect(new CheckAmount(e.number).toString()).toEqual(e.word);
+            });
         });
-
-        it("should return \"one thousand hundred dollars\" when given value is 1100", function () {
-            expect(new CheckAmount(1100).toString()).toEqual("one thousand hundred dollars");
-        });
-
     });
 
 });

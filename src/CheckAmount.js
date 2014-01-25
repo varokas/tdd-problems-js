@@ -15,33 +15,39 @@ CheckAmount = (function() {
     }
 
     var getNumberText = function(number) {
-        var resultText = "";
+        var resultText = [];
         var context = {"number": number};
 
-        var filters = [thousandFilter, tensFilter, digitFilter];
+        var filters = [thousandFilter, hundredsFilter, tensFilter, digitFilter];
 
         filters.forEach(function(filter) {
-            var text = filter(context);
-            if(text != "") {
-                resultText += (text + " ");
-            }
+            filter(resultText, context);
         });
 
-        return resultText;
+        return resultText.filter(function(e) { return e != '' }).join(' ');
     }
 
-    var thousandFilter = function(context) {
-        var text = "";
-        if((context.number / 1000) >= 1){
-            text = "one thousand";
+    var thousandFilter = function(texts, context) {
+
+        if((context.number / 1000) >= 1) {
+            texts.push("one thousand");
         }
-        context.number -= parseInt(context.number/1000) * 1000;
 
-        return text;
+        context.number = context.number % 1000
     }
 
-    var tensFilter = function(context) {
-        var text = "";
+    var hundredsFilter = function(texts, context) {
+
+        var hundred = parseInt(context.number / 100);
+        if(hundred > 0) {
+            digitFilter(texts, { number : hundred })
+            texts.push("hundred")
+        }
+
+        context.number = context.number % 100
+    }
+
+    var tensFilter = function(texts, context) {
 
         if(context.number >= 20) {
             var tensText = {
@@ -55,14 +61,12 @@ CheckAmount = (function() {
                 9: "ninety",
             }
 
-            text = tensText[parseInt(context.number/10)]
-            context.number -= parseInt(context.number/10) * 10
+            texts.push(tensText[parseInt(context.number / 10)])
+            context.number = context.number % 10
         }
-
-        return text;
     }
 
-    var digitFilter = function(context) {
+    var digitFilter = function(texts, context) {
         var numberText = {
             0: '',
             1: 'one',
@@ -86,11 +90,11 @@ CheckAmount = (function() {
             19: 'nineteen'
         }
 
-        return numberText[context.number];
+        texts.push(numberText[context.number]);
     }
 
     CheckAmount.prototype.toString = function () {
-        return getNumberText(value) + getCurrency(value);
+        return getNumberText(value) + ' ' + getCurrency(value);
     }
 
     return CheckAmount;
