@@ -45,6 +45,10 @@ Player = (function() {
         return countByRank(cards).some(function(e) { return e === 3 })
     }
 
+    function isFourOfKind(cards) {
+        return countByRank(cards).some(function(e) { return e === 4 })
+    }
+
     function countByRank(cards) {
         return cards.reduce(
             function(aggr, card) {
@@ -58,6 +62,9 @@ Player = (function() {
 
         if (isFlush(this.cards))
             return 'Flush';
+
+        if (isFourOfKind(this.cards))
+            return 'Four of a Kind'
 
         if (isThreeOfKind(this.cards))
             return 'Three of a Kind'

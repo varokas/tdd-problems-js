@@ -48,7 +48,7 @@ describe("PokerGame", function () {
             expect(white.rankOnHand()).toEqual("Three of a Kind");
         });
 
-                it("can show 'Four of a Kind' if contains 4 same value of the cards", function() {
+        it("can show 'Four of a Kind' if contains 4 same value of the cards", function() {
             var white = new Player("White", ['3S', '3C', '3D', '4H', '3H']);
             expect(white.rankOnHand()).toEqual("Four of a Kind");
         });
