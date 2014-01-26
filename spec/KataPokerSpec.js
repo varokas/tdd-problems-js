@@ -1,13 +1,13 @@
-describe("PokerGame", function () {
+describe('PokerGame', function () {
 
-    describe("Cards", function () {
-        it("with same rank but different suites should score equally the same", function() {
+    describe('Cards', function () {
+        it('with same rank but different suites should score equally the same', function() {
             expect(new Card('A', 'C').score()).toEqual(new Card('A', 'D').score());
             expect(new Card('A', 'D').score()).toEqual(new Card('A', 'H').score());
             expect(new Card('A', 'H').score()).toEqual(new Card('A', 'S').score());
         });
 
-        describe("should score according to their rank.", function () {
+        describe('should score according to their rank.', function () {
             [
                 {rank : '2',  suite : 'C', score : 2  },
                 {rank : '3',  suite : 'C', score : 3  },
@@ -23,13 +23,13 @@ describe("PokerGame", function () {
                 {rank : 'K',  suite : 'C', score : 13 },
                 {rank : 'A',  suite : 'C', score : 14 },
             ].forEach(function(e) {
-                it("A card of " + e.rank + e.suite + " should score " + e.score + " points", function() {
+                it('A card of ' + e.rank + e.suite + ' should score ' + e.score + ' points', function() {
                     expect(new Card(e.rank, e.suite).score()).toEqual(e.score);
                 });
             });
         });
 
-        it("can create card from shorthand notation", function() {
+        it('can create card from shorthand notation', function() {
             var card = CardFactory.createByCode("TD");
             expect(card.rank).toEqual('T');
             expect(card.suite).toEqual('D');
@@ -38,24 +38,24 @@ describe("PokerGame", function () {
 
     describe('Player', function() {
 
-        it("can show flush in player hand", function() {
+        it('can show "Flush" in player hand', function() {
             var white = new Player('White', ['2S', '8S', 'AS', 'QS', '3S']);
             expect(white.rankOnHand()).toEqual('Flush');
         });
 
-        it("can show 'Three of a Kind' if contains 3 same value of the cards", function() {
-            var white = new Player("White", ['3S', '3C', '3D', '4H', '5H']);
-            expect(white.rankOnHand()).toEqual("Three of a Kind");
+        it('can show "Three of a Kind" if contains 3 same value of the cards', function() {
+            var white = new Player('White', ['3S', '3C', '3D', '4H', '5H']);
+            expect(white.rankOnHand()).toEqual('Three of a Kind');
         });
 
-        it("can show 'Four of a Kind' if contains 4 same value of the cards", function() {
-            var white = new Player("White", ['3S', '3C', '3D', '4H', '3H']);
-            expect(white.rankOnHand()).toEqual("Four of a Kind");
+        it('can show "Four of a Kind" if contains 4 same value of the cards', function() {
+            var white = new Player('White', ['3S', '3C', '3D', '4H', '3H']);
+            expect(white.rankOnHand()).toEqual('Four of a Kind');
         });
 
-        it("can show 'Pair' if 2 of 5 cards have same value", function() {
-            var white = new Player("White", ['3S', '3C', '4D', '5H', '6H']);
-            expect(white.rankOnHand()).toEqual("Pair");
+        it('can show "Pair" if 2 of 5 cards have same value', function() {
+            var white = new Player('White', ['3S', '3C', '4D', '5H', '6H']);
+            expect(white.rankOnHand()).toEqual('Pair');
         });
     });
 });
