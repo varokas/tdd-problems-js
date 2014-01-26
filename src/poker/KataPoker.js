@@ -28,23 +28,26 @@ Card = (function() {
     return Card;
 })();
 
-HandClassifier = (function() {
-    function HandClassifier() {
+function FlushClassifier() {
+    this.classifyAs = function(cards) {
+       if(isFlush(cards)) return 'Flush';   
     }
 
     function isFlush(cards) {
-        var suite = cards[0].suite
-        return cards.every(function(e) { return e.suite === suite })
+       var suite = cards[0].suite
+       return cards.every(function(e) { return e.suite === suite })  
+    }
+}
+
+function OfKindClassifier(_number, _desc) {
+    this.classifyAs = function(cards) {
+       if(isOfKind(cards)) return _desc;   
     }
 
-    function isThreeOfKind(cards) {
-        return countByRank(cards).some(function(e) { return e === 3 })
+    function isOfKind(cards) {
+        return countByRank(cards).some(function(e) { return e === _number; });
     }
-
-    function isFourOfKind(cards) {
-        return countByRank(cards).some(function(e) { return e === 4 })
-    }
-
+    
     function countByRank(cards) {
         return cards.reduce(
             function(aggr, card) {
@@ -53,18 +56,25 @@ HandClassifier = (function() {
                 return aggr
         }, []);
     }
+}
 
+HandClassifier = (function() {
+    function HandClassifier() {
+        this.classifiers = [
+            new FlushClassifier(), 
+            new OfKindClassifier(4, 'Four of a Kind'),
+            new OfKindClassifier(3, 'Three of a Kind'),
+        ];
+    }
+    
     HandClassifier.prototype.getHand = function(cards) {
-        if (isFlush(cards))
-            return 'Flush';
+        for (i in this.classifiers) {
+            var classifyAs = this.classifiers[i].classifyAs(cards);
 
-        if (isFourOfKind(cards))
-            return 'Four of a Kind'
-
-        if (isThreeOfKind(cards))
-            return 'Three of a Kind'
-
-        return 'High Card'
+            if(classifyAs != undefined) {
+                return classifyAs;
+            }
+        }
     }
 
     return HandClassifier;
