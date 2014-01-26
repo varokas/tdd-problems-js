@@ -28,12 +28,8 @@ Card = (function() {
     return Card;
 })();
 
-Player = (function() {
-    function Player(_name, _cards) {
-        this.name  = _name;
-        this.cards = _cards.map(function(e) {
-            return CardFactory.createByCode(e)
-        })
+HandClassifier = (function() {
+    function HandClassifier() {
     }
 
     function isFlush(cards) {
@@ -58,18 +54,33 @@ Player = (function() {
         }, []);
     }
 
-    Player.prototype.rankOnHand = function() {
-
-        if (isFlush(this.cards))
+    HandClassifier.prototype.getHand = function(cards) {
+        if (isFlush(cards))
             return 'Flush';
 
-        if (isFourOfKind(this.cards))
+        if (isFourOfKind(cards))
             return 'Four of a Kind'
 
-        if (isThreeOfKind(this.cards))
+        if (isThreeOfKind(cards))
             return 'Three of a Kind'
 
         return 'High Card'
+    }
+
+    return HandClassifier;
+})();
+
+Player = (function() {
+    function Player(_name, _cards) {
+        this.name  = _name;
+        this.cards = _cards.map(function(e) {
+            return CardFactory.createByCode(e)
+        })
+        this.handClassifier = new HandClassifier();
+    }
+
+    Player.prototype.rankOnHand = function() {
+        return this.handClassifier.getHand(this.cards);   
     };
 
     return Player;
