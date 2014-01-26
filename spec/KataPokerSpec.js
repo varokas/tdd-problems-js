@@ -52,5 +52,10 @@ describe("PokerGame", function () {
             var white = new Player("White", ['3S', '3C', '3D', '4H', '3H']);
             expect(white.rankOnHand()).toEqual("Four of a Kind");
         });
+
+        it("can show 'Pair' if 2 of 5 cards have same value", function() {
+            var white = new Player("White", ['3S', '3C', '4D', '5H', '6H']);
+            expect(white.rankOnHand()).toEqual("Pair");
+        });
     });
 });
