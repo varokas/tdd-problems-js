@@ -37,7 +37,6 @@ describe('PokerGame', function () {
     });
 
     describe('Player', function() {
-
         it('can show "Flush" in player hand', function() {
             var white = new Player('White', ['2S', '8S', 'AS', 'QS', '3S']);
             expect(white.rankOnHand()).toEqual('Flush');
@@ -56,6 +55,11 @@ describe('PokerGame', function () {
         it('can show "Pair" if 2 of 5 cards have same value', function() {
             var white = new Player('White', ['3S', '3C', '4D', '5H', '6H']);
             expect(white.rankOnHand()).toEqual('Pair');
+        });
+
+        it('can show "Full House" if 3 cards of the same value, with the remaining 2 cards forming a pair', function() {
+            var white = new Player('White', ['3S', '3C', '3D', '5S', '5C']);
+            expect(white.rankOnHand()).toEqual('Full House');
         });
     });
 });
