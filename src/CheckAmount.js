@@ -11,7 +11,7 @@ CheckAmount = (function() {
     }
 
     var getCurrency = function (number) {
-        return isOne(number) ? 'dollar' : 'dollars'
+        return isOne(number) ? 'dollar' : 'dollars';
     }
 
     var getNumberText = function(number) {
@@ -29,27 +29,36 @@ CheckAmount = (function() {
 
     var thousandFilter = function(texts, context) {
         var thousand = parseInt(context.number / 1000);
-        if(thousand > 0) {
-            digitFilter(texts, { number : thousand })
+        if(context.number >= 1000){
+            if(thousand > 100 && thousand < 1000) {
+                hundredsFilter(texts, { number : thousand });
+                tensFilter(texts, { number : (thousand/100) });
+                digitFilter(texts, { number : thousand%100 });
+            }else if(thousand > 20 && thousand < 100) {
+                tensFilter(texts, { number : thousand });
+                digitFilter(texts, { number : thousand%10 });
+            }else if(thousand > 1 && thousand < 20) {
+                digitFilter(texts, { number : thousand });
+            }else if (thousand == 1){
+                texts.push("one");
+            }
             texts.push("thousand");
         }
 
-        context.number = context.number % 1000
+        context.number = context.number % 1000;
     }
 
     var hundredsFilter = function(texts, context) {
-
         var hundred = parseInt(context.number / 100);
         if(hundred > 0) {
-            digitFilter(texts, { number : hundred })
-            texts.push("hundred")
+            digitFilter(texts, { number : hundred });
+            texts.push("hundred");
         }
 
-        context.number = context.number % 100
+        context.number = context.number % 100;
     }
 
     var tensFilter = function(texts, context) {
-
         if(context.number >= 20) {
             var tensText = {
                 2: "twenty",
@@ -60,10 +69,10 @@ CheckAmount = (function() {
                 7: "seventy",
                 8: "eighty",
                 9: "ninety",
-            }
+            };
 
-            texts.push(tensText[parseInt(context.number / 10)])
-            context.number = context.number % 10
+            texts.push(tensText[parseInt(context.number / 10)]);
+            context.number = context.number % 10;
         }
     }
 
@@ -89,7 +98,7 @@ CheckAmount = (function() {
             17: 'seventeen',
             18: 'eighteen',
             19: 'nineteen'
-        }
+        };
 
         texts.push(numberText[context.number]);
     }

@@ -87,6 +87,8 @@ describe("When CheckAmount is instantiated with ", function () {
             { word: "one thousand nine dollars", number: 1009 },
             { word: "one thousand ten dollars", number: 1010 },
             { word: "one thousand one hundred dollars", number: 1100 },
+            { word: "seven thousand dollars", number: 7000 },
+            { word: "twelve thousand dollars", number: 12000 },
         ].forEach(function (e) {
             it("should return \"" + e.word + "\" when given value is " + e.number, function () {
                 expect(new CheckAmount(e.number).toString()).toEqual(e.word);
@@ -94,10 +96,8 @@ describe("When CheckAmount is instantiated with ", function () {
         });
     });
 
-    describe("many thousands numbers", function() {
+    describe("mixed numbers", function() {
         [
-            { word: "seven thousand dollars", number: 7000 },
-            { word: "twelve thousand dollars", number: 12000 },
             { word: "thirty three thousand three hundred dollars", number: 33300 },
             { word: "nine hundred two thousand three hundred fifty one dollars", number: 902351 },
         ].forEach(function (e) {
