@@ -28,9 +28,10 @@ CheckAmount = (function() {
     }
 
     var thousandFilter = function(texts, context) {
-
-        if((context.number / 1000) >= 1) {
-            texts.push("one thousand");
+        var thousand = parseInt(context.number / 1000);
+        if(thousand > 0) {
+            digitFilter(texts, { number : thousand })
+            texts.push("thousand");
         }
 
         context.number = context.number % 1000

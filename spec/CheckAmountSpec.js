@@ -94,7 +94,7 @@ describe("When CheckAmount is instantiated with ", function () {
         });
     });
 
-        describe("many thousands numbers", function() {
+    describe("many thousands numbers", function() {
         [
             { word: "seven thousand dollars", number: 7000 },
             { word: "twelve thousand dollars", number: 12000 },
