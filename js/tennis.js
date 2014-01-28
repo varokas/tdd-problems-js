@@ -5,7 +5,10 @@ function TennisTable(_players, _current) {
     var current = _current;
 
     instance.render = function(svg) {
-        var svg = d3.select(svg);
+        var svg = d3.select(svg)
+            .attr("width",380)
+            .attr("height",380);
+
         var bgCircle = svg.append("circle")
             .attr("style", "fill: none; stroke:#000000;")
             .attr("cx", 185)
