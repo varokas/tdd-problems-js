@@ -9,11 +9,8 @@ function TennisTable(_players, _current) {
             .attr("width",380)
             .attr("height",380);
 
-        var bgCircle = svg.append("circle")
-            .attr("style", "fill: none; stroke:#000000;")
-            .attr("cx", 185)
-            .attr("cy", 155)
-            .attr("r", 150);
+        createDef(svg);
+        createBackgroundCircle(svg);
 
 
         var circleGroup = svg.append("g")
@@ -64,6 +61,31 @@ function TennisTable(_players, _current) {
                 return d.data.name;
             });
     };
+
+    function createDef(svg) {
+        var defs = svg.append("defs");
+
+        var mask = defs.append("mask")
+            .attr("id", "circleMask")
+            .attr("x",0)
+            .attr("y",0)
+            .attr("width",64)
+            .attr("height",64);
+
+        mask.append("circle")
+            .attr("cx",32)
+            .attr("cy",32)
+            .attr("r",32)
+            .attr("style", "stroke:none; fill: #ffffff");
+    }
+
+    function createBackgroundCircle(svg) {
+        svg.append("circle")
+            .attr("style", "fill: none; stroke:#000000;")
+            .attr("cx", 185)
+            .attr("cy", 155)
+            .attr("r", 150);
+    }
 
     return instance;
 }
