@@ -30,8 +30,8 @@
             ];
 
             $(document).ready(function() {
-                createCircle("#spCheckTurns", spCheckPlayers, spCheckCurrent);
-                createCircle("#pokerTurns", pokerPlayers, pokerCurrent);
+                TennisTable(spCheckPlayers, spCheckCurrent).render("#spCheckTurns");
+                TennisTable(pokerPlayers, pokerCurrent).render("#pokerTurns");
             });
         </script>
     </head>
