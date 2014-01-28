@@ -11,11 +11,39 @@ function TennisTable(_players, _current) {
 
         createDef(svg);
         createBackgroundCircle(svg);
+        createPlayerCircle(svg);
 
 
+    };
+
+    function createDef(svg) {
+        var defs = svg.append("defs");
+
+        var mask = defs.append("mask")
+            .attr("id", "circleMask")
+            .attr("x",0)
+            .attr("y",0)
+            .attr("width",64)
+            .attr("height",64);
+
+        mask.append("circle")
+            .attr("cx",32)
+            .attr("cy",32)
+            .attr("r",32)
+            .attr("style", "stroke:none; fill: #ffffff");
+    }
+
+    function createBackgroundCircle(svg) {
+        svg.append("circle")
+            .attr("style", "fill: none; stroke:#000000;")
+            .attr("cx", 185)
+            .attr("cy", 155)
+            .attr("r", 150);
+    }
+
+    function createPlayerCircle(svg) {
         var circleGroup = svg.append("g")
             .attr("transform", "translate(150,120)");
-
 
         var arc = d3.svg.arc()
             .innerRadius(140)
@@ -60,31 +88,6 @@ function TennisTable(_players, _current) {
             .text(function(d, i) {
                 return d.data.name;
             });
-    };
-
-    function createDef(svg) {
-        var defs = svg.append("defs");
-
-        var mask = defs.append("mask")
-            .attr("id", "circleMask")
-            .attr("x",0)
-            .attr("y",0)
-            .attr("width",64)
-            .attr("height",64);
-
-        mask.append("circle")
-            .attr("cx",32)
-            .attr("cy",32)
-            .attr("r",32)
-            .attr("style", "stroke:none; fill: #ffffff");
-    }
-
-    function createBackgroundCircle(svg) {
-        svg.append("circle")
-            .attr("style", "fill: none; stroke:#000000;")
-            .attr("cx", 185)
-            .attr("cy", 155)
-            .attr("r", 150);
     }
 
     return instance;
