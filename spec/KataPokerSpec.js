@@ -61,5 +61,32 @@ describe('PokerGame', function () {
             var white = new Player('White', ['3S', '3C', '3D', '5S', '5C']);
             expect(white.rankOnHand()).toEqual('Full House');
         });
+
+        it('can show "Straight Flush" if 5 cards of the same suit with consecutive value', function() {
+            var white = new Player('white', ['3S', '4S', '5S', '6S', '7S']);
+            expect(white.rankOnHand()).toEqual('Straight Flush');
+        });
+    });
+
+    describe('Full House Classifier', function() {
+        var classifier;
+
+        beforeEach(function() {
+            classifier = new FullHouseClassifier(new OfKindClassifier(2, 'Pair'));
+        });
+
+        it('can show "Full House" if 3 cards of the same value, with the remaining 2 cards forming a pair', function() {
+            var _cards = ['3S', '3C', '3D', '5S', '5C'].map(function(e) {
+                return CardFactory.createByCode(e);
+            });
+            expect(classifier.classifyAs(_cards)).toEqual('Full House');
+        });
+
+        it('can return "undefined" if 3 cards of the same value, but the remaning 2 cards not forming a pair', function() {
+            var _cards = ['3S', '3C', '3D', '5S', '4C'].map(function(e) {
+                return CardFactory.createByCode(e);
+            });
+            expect(classifier.classifyAs(_cards)).toEqual(undefined);
+        });
     });
 });

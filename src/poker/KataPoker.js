@@ -65,6 +65,44 @@ function OfKindClassifier(_number, _desc) {
     }
 }
 
+var FullHouseClassifier = function(pairClassifier) {
+    'use strict';
+    var toSet = function(list) {
+        var _set = [];
+        list.forEach(function(elem) {
+            if (_set.indexOf(elem) === -1) {
+                _set.push(elem);
+            }
+        });
+        return _set;
+    };
+    var isThreeValue = function(cards) {
+        var _ranks = cards.map(function(card) {
+            return card.rank;
+        });
+        var _set = toSet(_ranks).sort(function(a, b) { return a > b; });
+        var isThree = false;
+        _set.forEach(function(rank) {
+            var _members = _ranks.filter(function(e) { return e === rank; });
+            if (_members.length === 3) {
+                isThree = true;
+            }
+        });
+        return isThree;
+    };
+    var isPair = function(cards) {
+        if (pairClassifier.classifyAs(cards) !== undefined) {
+            return true;
+        }
+        return false;
+    };
+    this.classifyAs = function(cards) {
+        if (isThreeValue(cards) && isPair(cards)) {
+            return 'Full House';
+        }
+    }
+}
+
 var HandClassifier = (function() {
     'use strict';
     var classifiers = [
@@ -72,6 +110,7 @@ var HandClassifier = (function() {
         new OfKindClassifier(4, 'Four of a Kind'),
         new OfKindClassifier(3, 'Three of a Kind'),
         new OfKindClassifier(2, 'Pair'),
+        new FullHouseClassifier(new OfKindClassifier(2, 'Pair')),
     ];
 
     var getHand = function(cards) {
@@ -82,6 +121,7 @@ var HandClassifier = (function() {
               res =  _class;
             }
         });
+
         return res;
     };
 
