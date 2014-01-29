@@ -100,8 +100,8 @@ var FullHouseClassifier = function(pairClassifier) {
         if (isThreeValue(cards) && isPair(cards)) {
             return 'Full House';
         }
-    }
-}
+    };
+};
 
 var HandClassifier = (function() {
     'use strict';
