@@ -30,63 +30,57 @@ describe('PokerGame', function () {
         });
 
         it('can create card from shorthand notation', function() {
-            var card = CardFactory.createByCode("TD");
+            var card = Card.fromCode("TD");
             expect(card.rank).toEqual('T');
             expect(card.suite).toEqual('D');
         });
     });
 
-    describe('Player', function() {
-        it('can show "Flush" in player hand', function() {
-            var white = new Player('White', ['2S', '8S', 'AS', 'QS', '3S']);
-            expect(white.rankOnHand()).toEqual('Flush');
+    describe('PlayerTurn', function() {
+
+        it('can show "High Card" if hand do not fit any higher category', function() {
+            var white = PlayerTurn.create('White', ['3S', '1C', '4D', '9H', '6S']);
+            expect('High Card').toEqual(white.rankOnHand());
         });
 
-        it('can show "Three of a Kind" if contains 3 same value of the cards', function() {
-            var white = new Player('White', ['3S', '3C', '3D', '4H', '5H']);
-            expect(white.rankOnHand()).toEqual('Three of a Kind');
+        it('can show "Pair" if hand contains 2 of 5 cards with same value', function() {
+            var white = PlayerTurn.create('White', ['3S', '3C', '4D', '5H', '6H']);
+            expect('Pair').toEqual(white.rankOnHand());
         });
 
-        it('can show "Four of a Kind" if contains 4 same value of the cards', function() {
-            var white = new Player('White', ['3S', '3C', '3D', '4H', '3H']);
-            expect(white.rankOnHand()).toEqual('Four of a Kind');
+        it('can show "Two Pairs" if hand contains 2 different pairs', function() {
+            var white = PlayerTurn.create('White', ['3S', '3C', '4D', '4H', '6H']);
+            expect('Two Pairs').toEqual(white.rankOnHand());
         });
 
-        it('can show "Pair" if 2 of 5 cards have same value', function() {
-            var white = new Player('White', ['3S', '3C', '4D', '5H', '6H']);
-            expect(white.rankOnHand()).toEqual('Pair');
+        it('can show "Three of a Kind" if hand contains 3 same value of the cards', function() {
+            var white = PlayerTurn.create('White', ['3S', '3C', '3D', '4H', '5H']);
+            expect('Three of a Kind').toEqual(white.rankOnHand());
         });
 
-        it('can show "Full House" if 3 cards of the same value, with the remaining 2 cards forming a pair', function() {
-            var white = new Player('White', ['3S', '3C', '3D', '5S', '5C']);
-            expect(white.rankOnHand()).toEqual('Full House');
+        it('can show "Straight" if hand contains 5 cards with consecutive values', function() {
+            var white = PlayerTurn.create('white', ['3S', '4S', '5S', '6H', '7D']);
+            expect('Straight').toEqual(white.rankOnHand());
         });
 
-        it('can show "Straight Flush" if 5 cards of the same suit with consecutive value', function() {
-            var white = new Player('white', ['3S', '4S', '5S', '6S', '7S']);
+        it('can show "Flush" if hand contains 5 cards of the same suit', function() {
+            var white = PlayerTurn.create('White', ['2S', '8S', 'AS', 'QS', '3S']);
+            expect('Flush').toEqual(white.rankOnHand());
+        });
+
+        it('can show "Four of a Kind" if hand contains 4 same value of the cards', function() {
+            var white = PlayerTurn.create('White', ['3S', '3C', '3D', '4H', '3H']);
+            expect('Four of a Kind').toEqual(white.rankOnHand());
+        });
+
+        it('can show "Full House" if hand contains 3 cards of the same value, with the remaining 2 cards forming a pair', function() {
+            var white = PlayerTurn.create('White', ['3S', '3C', '3D', '5S', '5C']);
+            expect('Full House').toEqual(white.rankOnHand());
+        });
+
+        it('can show "Straight Flush" if hand contains 5 cards of the same suit with consecutive value', function() {
+            var white = PlayerTurn.create('white', ['3S', '4S', '5S', '6S', '7S']);
             expect(white.rankOnHand()).toEqual('Straight Flush');
-        });
-    });
-
-    describe('Full House Classifier', function() {
-        var classifier;
-
-        beforeEach(function() {
-            classifier = new FullHouseClassifier(new OfKindClassifier(2, 'Pair'));
-        });
-
-        it('can show "Full House" if 3 cards of the same value, with the remaining 2 cards forming a pair', function() {
-            var _cards = ['3S', '3C', '3D', '5S', '5C'].map(function(e) {
-                return CardFactory.createByCode(e);
-            });
-            expect(classifier.classifyAs(_cards)).toEqual('Full House');
-        });
-
-        it('can return "undefined" if 3 cards of the same value, but the remaning 2 cards not forming a pair', function() {
-            var _cards = ['3S', '3C', '3D', '5S', '4C'].map(function(e) {
-                return CardFactory.createByCode(e);
-            });
-            expect(classifier.classifyAs(_cards)).toEqual(undefined);
         });
     });
 });
