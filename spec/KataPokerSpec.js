@@ -1,4 +1,7 @@
+/* global describe, it, expect */
+
 describe('PokerGame', function () {
+    "use strict";
 
     describe('Cards', function () {
         it('with same rank but different suites should score equally the same', function() {
@@ -33,6 +36,20 @@ describe('PokerGame', function () {
             var card = Card.fromCode("TD");
             expect(card.rank).toEqual('T');
             expect(card.suite).toEqual('D');
+        });
+    });
+
+    describe('Classifiers', function() {
+        describe('StraightFlushClassifier', function() {
+            it("has name of 'Straight Flush'", function() {
+                expect(new StraightClassifier().name).toBe("Straight");
+            });
+
+            it("getRank() returns highest card", function() {
+                var cards = Hand.create(['3S', '4S', '5S', '6H', '7D']);
+
+                expect(new StraightClassifier().getRank()).toBe(7);
+            });
         });
     });
 

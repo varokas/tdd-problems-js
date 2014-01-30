@@ -20,6 +20,10 @@ function StraightClassifier() {
        return isStraight(cards);
     };
 
+    this.getRank = function(cards) {
+       return 1;
+    };
+
     function isStraight(cards) {
        var actualScores   = cards.map(function(c) { return c.score(); }).sort(),
            expectedScores = actualScores.map(function(score, index, array) { return array[0] + index; }),
