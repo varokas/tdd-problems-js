@@ -66,6 +66,24 @@ function OfKindClassifier(_number, _name) {
     }
 }
 
+var TwoPairClassifier = function() {
+    this.name = "Two Pairs";
+
+    this.isClassifyAs = function(cards) {
+        var rankWithPairs = countByRank(cards).filter(function(count, rank) { return count === 2; });
+        return rankWithPairs.length === 2;
+    };
+
+    function countByRank(cards) {
+        return cards.reduce(
+            function(aggr, card) {
+                var counter = aggr[card.rank] || 0;
+                aggr[card.rank] = counter + 1;
+                return aggr;
+            }, []);
+    }
+};
+
 var CompositeClassifier = function(_classifiers, _name) {
 
     this.name = _name;
@@ -78,6 +96,7 @@ var CompositeClassifier = function(_classifiers, _name) {
 var PokerHandClassifiers = (function() {
 
     var pair          = new OfKindClassifier(2, 'Pair'),
+        twoPairs      = new TwoPairClassifier(),
         threeOfKind   = new OfKindClassifier(3, 'Three of a Kind'),
         straight      = new StraightClassifier(),
         flush         = new FlushClassifier(),
@@ -85,7 +104,7 @@ var PokerHandClassifiers = (function() {
         fourOfKind    = new OfKindClassifier(4, 'Four of a Kind'),
         straightflush = new CompositeClassifier([straight, flush], 'Straight Flush');
 
-    var classifiers = [ straightflush, fourOfKind, fullhouse, flush, straight, threeOfKind, pair ];
+    var classifiers = [ straightflush, fourOfKind, fullhouse, flush, straight, threeOfKind, twoPairs, pair ];
 
     var matches = function(cards) {
 
