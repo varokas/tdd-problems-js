@@ -1,9 +1,9 @@
 /*jshint bitwise: true, curly: false, eqeqeq: true, forin: true,
 immed: true, latedef: true, newcap: true, noarg: true, noempty: true,
-nonew: true, regexp: true, undef: true, strict: true, trailing: true*/
-/*global */
+nonew: true, regexp: true, undef: true, globalstrict: true, trailing: true*/
 
-'use strict';
+/* global */
+"use strict";
 
 function Card(_rank, _suite) {
     this.rank  = _rank;
@@ -35,7 +35,7 @@ function Hand(_cards, _classifier) {
 
     this.rankOnHand = function() {
         return this.classifier.name;
-    }
+    };
 }
 
 Hand.create = function(_cards) {
@@ -43,7 +43,7 @@ Hand.create = function(_cards) {
     var classifier = PokerHandClassifiers.matches(cards);
 
     return new Hand(cards, classifier);
-}
+};
 
 function PlayerTurn(_name, _hand) {
     this.name  = _name;
@@ -55,8 +55,8 @@ function PlayerTurn(_name, _hand) {
 }
 
 PlayerTurn.create = function(_name, _cards) {
-    return new PlayerTurn(_name, Hand.create(_cards))
-}
+    return new PlayerTurn(_name, Hand.create(_cards));
+};
 
 
 

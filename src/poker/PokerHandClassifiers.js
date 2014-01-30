@@ -1,6 +1,6 @@
 /*jshint bitwise: true, curly: false, eqeqeq: true, forin: true,
 immed: true, latedef: true, newcap: true, noarg: true, noempty: true,
-nonew: true, regexp: true, undef: true, strict: true, trailing: true*/
+nonew: true, regexp: true, undef: true, globalstrict: true, trailing: true*/
 /*global */
 
 'use strict';
@@ -10,9 +10,9 @@ var HighCardClassifier = function(others) {
     this.name = 'High Card';
 
     this.isClassifyAs = function(cards) {
-        return others.every(function(classifier) { return classifier.isClassifyAs(cards) === false })
-    }
-}
+        return others.every(function(classifier) { return classifier.isClassifyAs(cards) === false; });
+    };
+};
 
 function StraightClassifier() {
 
@@ -23,9 +23,9 @@ function StraightClassifier() {
     };
 
     function isStraight(cards) {
-       var actualScores   = cards.map(function(c) { return c.score() }).sort(),
-           expectedScores = actualScores.map(function(score, index, array) { return array[0] + index }),
-           isEquals       = actualScores.length === expectedScores.length && actualScores.join() == expectedScores.join();
+       var actualScores   = cards.map(function(c) { return c.score(); }).sort(),
+           expectedScores = actualScores.map(function(score, index, array) { return array[0] + index; }),
+           isEquals       = actualScores.length === expectedScores.length && actualScores.join() === expectedScores.join();
 
        return isEquals;
     }
@@ -71,9 +71,9 @@ var CompositeClassifier = function(_classifiers, _name) {
     this.name = _name;
 
     this.isClassifyAs = function(cards) {
-        return _classifiers.every(function(classifier) { return classifier.isClassifyAs(cards); })
-    }
-}
+        return _classifiers.every(function(classifier) { return classifier.isClassifyAs(cards); });
+    };
+};
 
 var PokerHandClassifiers = (function() {
 
