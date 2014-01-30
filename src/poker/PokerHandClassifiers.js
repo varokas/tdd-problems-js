@@ -6,7 +6,6 @@ nonew: true, regexp: true, undef: true, globalstrict: true, trailing: true*/
 'use strict';
 
 var HighCardClassifier = function(others) {
-
     this.name = 'High Card';
 
     this.isClassifyAs = function(cards) {
@@ -15,7 +14,6 @@ var HighCardClassifier = function(others) {
 };
 
 function StraightClassifier() {
-
     this.name = 'Straight';
 
     this.isClassifyAs = function(cards) {
@@ -32,7 +30,6 @@ function StraightClassifier() {
 }
 
 function FlushClassifier() {
-
     this.name = 'Flush';
 
     this.isClassifyAs = function(cards) {
@@ -44,54 +41,48 @@ function FlushClassifier() {
     }
 }
 
+var CardHelper = {
+    countByRank: function(cards) {
+        return cards.reduce(
+            function(aggr, card) {
+                var counter = aggr[card.rank] || 0;
+                aggr[card.rank] = counter + 1;
+                return aggr;
+         }, []);
+    }
+};
+
 function OfKindClassifier(_number, _name) {
 
     this.name = _name;
 
     this.isClassifyAs = function(cards) {
-        return countByRank(cards).some(haveDuplicatesRank);
+        return CardHelper.countByRank(cards).some(haveDuplicatesRank);
     };
 
     function haveDuplicatesRank(count) {
         return count === _number;
     }
-
-    function countByRank(cards) {
-        return cards.reduce(
-            function(aggr, card) {
-                var counter = aggr[card.rank] || 0;
-                aggr[card.rank] = counter + 1;
-                return aggr;
-        }, []);
-    }
 }
 
-var TwoPairClassifier = function() {
+function TwoPairClassifier() {
     this.name = "Two Pairs";
 
     this.isClassifyAs = function(cards) {
-        var rankWithPairs = countByRank(cards).filter(function(count, rank) { return count === 2; });
+        var rankWithPairs = CardHelper
+            .countByRank(cards)
+            .filter(function(count, rank) { return count === 2; });
         return rankWithPairs.length === 2;
     };
+}
 
-    function countByRank(cards) {
-        return cards.reduce(
-            function(aggr, card) {
-                var counter = aggr[card.rank] || 0;
-                aggr[card.rank] = counter + 1;
-                return aggr;
-            }, []);
-    }
-};
-
-var CompositeClassifier = function(_classifiers, _name) {
-
+function CompositeClassifier(_classifiers, _name) {
     this.name = _name;
 
     this.isClassifyAs = function(cards) {
         return _classifiers.every(function(classifier) { return classifier.isClassifyAs(cards); });
     };
-};
+}
 
 var PokerHandClassifiers = (function() {
 
