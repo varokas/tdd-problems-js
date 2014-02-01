@@ -46,9 +46,8 @@ describe('PokerGame', function () {
             });
 
             it("getRank() returns highest card", function() {
-                var cards = Hand.create(['3S', '4S', '5S', '6H', '7D']);
-
-                expect(new StraightClassifier().getRank()).toBe(7);
+                var cards = Hand.create(['3S', '7D', '5S', '4S', '6H']);
+                expect(new StraightClassifier().getRank(cards)).toBe(7);
             });
         });
     });
@@ -98,6 +97,14 @@ describe('PokerGame', function () {
         it('can show "Straight Flush" if hand contains 5 cards of the same suit with consecutive value', function() {
             var white = PlayerTurn.create('white', ['3S', '4S', '5S', '6S', '7S']);
             expect(white.rankOnHand()).toEqual('Straight Flush');
+        });
+    });
+
+    describe('Casino', function() {
+        it('should say black win by Straight Flush', function() {
+            var black = PlayerTurn.create('black', ['2S', '8S', 'AS', 'QS', '3S']);
+            var white = PlayerTurn.create('white', ['3S', '4S', '5S', '6S', '7S']);
+            expect(new Casino(black, white).judge()).toEqual('White wins. - with straight flush');
         });
     });
 });
