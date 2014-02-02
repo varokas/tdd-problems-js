@@ -44,15 +44,15 @@ describe("When CheckAmount is instantiated with ", function () {
     describe("other ten numbers", function () {
         [
             { word: "twenty dollars", number: 20 },
-            { word: "thirty one dollars", number: 31 },
-            { word: "fourty two dollars", number: 42 },
-            { word: "fifty three dollars", number: 53 },
-            { word: "sixty four dollars", number: 64 },
-            { word: "seventy five dollars", number: 75 },
-            { word: "eighty six dollars", number: 86 },
-            { word: "ninety seven dollars", number: 97 },
-            { word: "twenty eight dollars", number: 28 },
-            { word: "thirty nine dollars", number: 39 },
+            { word: "thirty-one dollars", number: 31 },
+            { word: "fourty-two dollars", number: 42 },
+            { word: "fifty-three dollars", number: 53 },
+            { word: "sixty-four dollars", number: 64 },
+            { word: "seventy-five dollars", number: 75 },
+            { word: "eighty-six dollars", number: 86 },
+            { word: "ninety-seven dollars", number: 97 },
+            { word: "twenty-eight dollars", number: 28 },
+            { word: "thirty-nine dollars", number: 39 },
         ]
         .forEach(function (e) {
             it("should return \"" + e.word + "\" when given value is " + e.number, function () {
@@ -64,14 +64,14 @@ describe("When CheckAmount is instantiated with ", function () {
     describe("hundreds numbers", function () {
         [
             { word: "one hundred twenty dollars", number: 120 },
-            { word: "two hundred thirty one dollars", number: 231 },
-            { word: "three hundred fourty two dollars", number: 342 },
-            { word: "four hundred fifty three dollars", number: 453 },
-            { word: "five hundred sixty four dollars", number: 564 },
-            { word: "six hundred seventy five dollars", number: 675 },
-            { word: "seven hundred eighty six dollars", number: 786 },
-            { word: "eight hundred ninety seven dollars", number: 897 },
-            { word: "nine hundred twenty eight dollars", number: 928 },
+            { word: "two hundred thirty-one dollars", number: 231 },
+            { word: "three hundred fourty-two dollars", number: 342 },
+            { word: "four hundred fifty-three dollars", number: 453 },
+            { word: "five hundred sixty-four dollars", number: 564 },
+            { word: "six hundred seventy-five dollars", number: 675 },
+            { word: "seven hundred eighty-six dollars", number: 786 },
+            { word: "eight hundred ninety-seven dollars", number: 897 },
+            { word: "nine hundred twenty-eight dollars", number: 928 },
         ]
         .forEach(function (e) {
             it("should return \"" + e.word + "\" when given value is " + e.number, function () {
@@ -111,10 +111,11 @@ describe("When CheckAmount is instantiated with ", function () {
 
     describe("mixed numbers", function() {
         [
-            { word: "thirty three thousand three hundred dollars", number: 33300 },
-            { word: "nine hundred two thousand three hundred fifty one dollars", number: 902351 },
-            { word: "fifty three thousand dollars", number: 53000 },
-            { word: "four hundred fifty three thousand three hundred fifty one dollars", number: 453351 },
+            { word: "thirty-three thousand three hundred dollars", number: 33300 },
+            { word: "nine hundred two thousand three hundred fifty-one dollars", number: 902351 },
+            { word: "fifty-three thousand dollars", number: 53000 },
+            { word: "four hundred fifty-three thousand three hundred fifty-one dollars", number: 453351 },
+            { word: "four hundred fifty-three million three hundred fifty-one thousand two hundred thirty-two dollars", number: 453351232 },
         ].forEach(function (e) {
             it("should return \"" + e.word + "\" when given value is " + e.number, function () {
                 expect(new CheckAmount(e.number).toString()).toEqual(e.word);

@@ -44,9 +44,10 @@ var CheckAmount = function(value) {
     }
 
     function baseFilter(number) {
-        var tens = parseInt(number / 10);
-        return (tens > 1) ? [tensText[tens], singleUnitText[number % 10]]
-                          : [[singleUnitText[number]]];
+        var tens  = parseInt(number / 10);
+        var digit = number % 10;
+        return (tens > 1) ? [(digit) ? tensText[tens] + "-" + singleUnitText[digit] : tensText[tens]]
+                          : [singleUnitText[number]];
     }
 
     function createNestedFilter(base, name, nextFilter) {
@@ -54,7 +55,7 @@ var CheckAmount = function(value) {
             var unit = parseInt(number / base);
             return (unit) ? [numberToText(unit), name, nextFilter(number % base)]
                           : [nextFilter(number % base)];
-        }
+        };
     }
 
     function numberToText(number) {
