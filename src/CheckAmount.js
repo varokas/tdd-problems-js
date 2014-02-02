@@ -1,6 +1,4 @@
-var CheckAmount = (function() {
-
-    var value;
+var CheckAmount = function(value) {
 
     var tensText = {
         2: "twenty",
@@ -36,57 +34,53 @@ var CheckAmount = (function() {
         19: 'nineteen'
     };
 
-    function CheckAmount(val) {
-        value = val;
+    function isOne(number) {
+        return number === 1;
     }
 
-    var isOne = function (number) {
-        return number === 1;
-    };
-
-    var getCurrency = function (number) {
+    function getCurrency(number) {
         return isOne(number) ? 'dollar' : 'dollars';
-    };
+    }
 
-    var getNumberText = function(number) {
-        var resultText = millionFilter(number);
-        return resultText.flatten().filter(function(e) { return e !== ''; }).join(' ');
-    };
+    function getNumberText(number) {
+        var resultText = millionFilter(number),
+            isNotEmpty = function(e) { return e !== ''; };
 
-    var millionFilter = function(number) {
+        return resultText.flatten().filter(isNotEmpty).join(' ');
+    }
+
+    function millionFilter(number) {
         var million = parseInt(number / 1000000);
         return (million) ? [getNumberText(million), "million", thousandFilter(number % 1000000)]
                          : [thousandFilter(number % 1000000)];
-    };
+    }
 
-    var thousandFilter = function(number) {
+    function thousandFilter(number) {
         var thousand = parseInt(number / 1000);
         return (thousand) ? [getNumberText(thousand), "thousand", hundredsFilter(number % 1000)]
                           : [hundredsFilter(number % 1000)];
-    };
+    }
 
-    var hundredsFilter = function(number) {
+    function hundredsFilter(number) {
         var hundred = parseInt(number / 100);
         return (hundred) ? [getNumberText(hundred), "hundred", tensFilter(number % 100)]
                          : [tensFilter(number % 100)];
-    };
+    }
 
-    var tensFilter = function(number) {
+    function tensFilter(number) {
         var tens = parseInt(number / 10);
         return (tens > 1) ? [tensText[tens], digitFilter(number % 10)]
                           : [digitFilter(number)];
-    };
+    }
 
-    var digitFilter = function(number) {
+    function digitFilter(number) {
         return [singleUnitText[number]];
-    };
+    }
 
     CheckAmount.prototype.toString = function () {
         return getNumberText(value) + ' ' + getCurrency(value);
     };
-
-    return CheckAmount;
-})();
+};
 
 Array.prototype.flatten = function() {
   return this.reduce(function(prev, cur) {
