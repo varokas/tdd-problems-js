@@ -30,7 +30,7 @@ CheckAmount = (function() {
     var millionFilter = function(texts, context) {
         var million = parseInt(context.number / 1000000);
 
-        if (million >= 1) {
+        if (million) {
             texts.push(getNumberText(million));
             texts.push("million");
         }
@@ -41,27 +41,8 @@ CheckAmount = (function() {
     var thousandFilter = function(texts, context) {
         var thousand = parseInt(context.number / 1000);
 
-        if (context.number >= 1000) {
-
-            if(thousand > 100 && thousand < 1000) {
-                hundredsFilter(texts, { number : thousand });
-                tensFilter(texts, { number : (thousand%100) });
-                digitFilter(texts, { number : thousand%10 });
-            }
-
-            else if (thousand > 20 && thousand < 100) {
-                tensFilter(texts, { number : thousand });
-                digitFilter(texts, { number : thousand%10 });
-            }
-
-            else if (thousand > 1 && thousand < 20) {
-                digitFilter(texts, { number : thousand });
-            }
-
-            else if (thousand == 1) {
-                texts.push("one");
-            }
-
+        if (thousand) {
+            texts.push(getNumberText(thousand));
             texts.push("thousand");
         }
 
@@ -70,8 +51,9 @@ CheckAmount = (function() {
 
     var hundredsFilter = function(texts, context) {
         var hundred = parseInt(context.number / 100);
-        if(hundred > 0) {
-            digitFilter(texts, { number : hundred });
+
+        if(hundred) {
+            texts.push(getNumberText(hundred));
             texts.push("hundred");
         }
 
