@@ -31,7 +31,7 @@ CheckAmount = (function() {
         var million = parseInt(context.number / 1000000);
 
         if (million >= 1) {
-            digitFilter(texts, { number : million })
+            texts.push(getNumberText(million));
             texts.push("million");
         }
 
