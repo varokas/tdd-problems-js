@@ -100,6 +100,7 @@ describe("When CheckAmount is instantiated with ", function () {
     describe("million numbers", function () {
         [
             { word: "one million dollars", number: 1000000 },
+            { word: "eleven million dollars", number: 11000000 },
         ].forEach(function (e) {
             it("should return \"" + e.word + "\" when given value is " + e.number, function () {
                 expect(new CheckAmount(e.number).toString()).toEqual(e.word);
