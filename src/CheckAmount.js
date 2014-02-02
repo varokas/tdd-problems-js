@@ -18,7 +18,7 @@ CheckAmount = (function() {
         var resultText = [];
         var context = {"number": number};
 
-        var filters = [millionFilter, thousandFilter, hundredsFilter, tensFilter, digitFilter];
+        var filters = [millionFilter, thousandFilter, hundredsFilter, tensFilter];
 
         filters.forEach(function(filter) {
             filter(resultText, context);
@@ -76,6 +76,8 @@ CheckAmount = (function() {
             texts.push(tensText[parseInt(context.number / 10)]);
             context.number = context.number % 10;
         }
+
+        digitFilter(texts, context);
     }
 
     var digitFilter = function(texts, context) {
