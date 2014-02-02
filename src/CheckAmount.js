@@ -18,7 +18,7 @@ CheckAmount = (function() {
         var resultText = [];
         var context = {"number": number};
 
-        var filters = [millionFilter, thousandFilter, hundredsFilter];
+        var filters = [millionFilter, thousandFilter];
 
         filters.forEach(function(filter) {
             filter(resultText, context);
@@ -47,6 +47,7 @@ CheckAmount = (function() {
         }
 
         context.number = context.number % 1000;
+        hundredsFilter(texts, context);
     }
 
     var hundredsFilter = function(texts, context) {
