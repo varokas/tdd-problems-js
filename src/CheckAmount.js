@@ -18,9 +18,8 @@ CheckAmount = (function() {
         var resultText = [];
         var context = {"number": number};
 
-        millionFilter(resultText, context);
-
-        return resultText.filter(function(e) { return e != '' }).join(' ');
+        var newText = millionFilter(resultText, context);
+        return newText.flatten().filter(function(e) { return e != '' }).join(' ');
     }
 
     var millionFilter = function(texts, context) {
@@ -32,7 +31,7 @@ CheckAmount = (function() {
         }
 
         context.number = context.number % 1000000;
-        thousandFilter(texts, context);
+        return (million) ? [getNumberText(million), "million", thousandFilter([], context)] : [thousandFilter([],  context)];
     }
 
     var thousandFilter = function(texts, context) {
@@ -44,7 +43,7 @@ CheckAmount = (function() {
         }
 
         context.number = context.number % 1000;
-        hundredsFilter(texts, context);
+        return (thousand) ? [getNumberText(thousand), "thousand", hundredsFilter([], context)] : [hundredsFilter([],  context)]
     }
 
     var hundredsFilter = function(texts, context) {
@@ -56,10 +55,11 @@ CheckAmount = (function() {
         }
 
         context.number = context.number % 100;
-        tensFilter(texts, context);
+        return (hundred) ? [getNumberText(hundred), "hundred", tensFilter([], context)] : [tensFilter([],  context)]
     }
 
     var tensFilter = function(texts, context) {
+        var temp = context.number;
         if(context.number >= 20) {
             var tensText = {
                 2: "twenty",
@@ -76,7 +76,7 @@ CheckAmount = (function() {
             context.number = context.number % 10;
         }
 
-        digitFilter(texts, context);
+        return (temp >= 20) ? [tensText[parseInt(temp / 10)], digitFilter([], context)] : [digitFilter([], context)];
     }
 
     var digitFilter = function(texts, context) {
@@ -104,6 +104,7 @@ CheckAmount = (function() {
         };
 
         texts.push(numberText[context.number]);
+        return [numberText[context.number]];
     }
 
     CheckAmount.prototype.toString = function () {
@@ -112,3 +113,10 @@ CheckAmount = (function() {
 
     return CheckAmount;
 })();
+
+Array.prototype.flatten = function() {
+  return this.reduce(function(prev, cur) {
+    var more = [].concat(cur).some(Array.isArray);
+    return prev.concat(more ? cur.flatten() : cur);
+  },[]);
+};
