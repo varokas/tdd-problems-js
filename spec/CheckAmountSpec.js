@@ -109,6 +109,18 @@ describe("When CheckAmount is instantiated with ", function () {
         });
     });
 
+    describe("billion numbers", function () {
+        [
+            { word: "one billion dollars", number: 1000000000 },
+            { word: "eleven billion dollars", number: 11000000000 },
+            { word: "two hundred billion dollars", number: 200000000000 },
+        ].forEach(function (e) {
+            it("should return \"" + e.word + "\" when given value is " + e.number, function () {
+                expect(new CheckAmount(e.number).toString()).toEqual(e.word);
+            });
+        });
+    });
+
     describe("mixed numbers", function() {
         [
             { word: "thirty-three thousand three hundred dollars", number: 33300 },
