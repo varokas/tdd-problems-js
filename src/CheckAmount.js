@@ -24,59 +24,38 @@ CheckAmount = (function() {
 
     var millionFilter = function(texts, context) {
         var million = parseInt(context.number / 1000000);
-
-        if (million) {
-            texts.push(getNumberText(million));
-            texts.push("million");
-        }
-
         context.number = context.number % 1000000;
+
         return (million) ? [getNumberText(million), "million", thousandFilter([], context)] : [thousandFilter([],  context)];
     }
 
     var thousandFilter = function(texts, context) {
         var thousand = parseInt(context.number / 1000);
-
-        if (thousand) {
-            texts.push(getNumberText(thousand));
-            texts.push("thousand");
-        }
-
         context.number = context.number % 1000;
+
         return (thousand) ? [getNumberText(thousand), "thousand", hundredsFilter([], context)] : [hundredsFilter([],  context)]
     }
 
     var hundredsFilter = function(texts, context) {
         var hundred = parseInt(context.number / 100);
-
-        if(hundred) {
-            texts.push(getNumberText(hundred));
-            texts.push("hundred");
-        }
-
         context.number = context.number % 100;
+
         return (hundred) ? [getNumberText(hundred), "hundred", tensFilter([], context)] : [tensFilter([],  context)]
     }
 
     var tensFilter = function(texts, context) {
-        var temp = context.number;
-        if(context.number >= 20) {
-            var tensText = {
-                2: "twenty",
-                3: "thirty",
-                4: "fourty",
-                5: "fifty",
-                6: "sixty",
-                7: "seventy",
-                8: "eighty",
-                9: "ninety",
-            };
+        var tensText = {
+            2: "twenty",
+            3: "thirty",
+            4: "fourty",
+            5: "fifty",
+            6: "sixty",
+            7: "seventy",
+            8: "eighty",
+            9: "ninety",
+        };
 
-            texts.push(tensText[parseInt(context.number / 10)]);
-            context.number = context.number % 10;
-        }
-
-        return (temp >= 20) ? [tensText[parseInt(temp / 10)], digitFilter([], context)] : [digitFilter([], context)];
+        return (context.number >= 20) ? [tensText[parseInt(context.number / 10)], digitFilter([], {number : context.number % 10})] : [digitFilter([], context)];
     }
 
     var digitFilter = function(texts, context) {
@@ -103,7 +82,6 @@ CheckAmount = (function() {
             19: 'nineteen'
         };
 
-        texts.push(numberText[context.number]);
         return [numberText[context.number]];
     }
 
