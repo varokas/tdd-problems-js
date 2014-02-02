@@ -18,13 +18,24 @@ CheckAmount = (function() {
         var resultText = [];
         var context = {"number": number};
 
-        var filters = [thousandFilter, hundredsFilter, tensFilter, digitFilter];
+        var filters = [millionFilter, thousandFilter, hundredsFilter, tensFilter, digitFilter];
 
         filters.forEach(function(filter) {
             filter(resultText, context);
         });
 
         return resultText.filter(function(e) { return e != '' }).join(' ');
+    }
+
+    var millionFilter = function(texts, context) {
+        var million = parseInt(context.number / 1000000);
+
+        if (million >= 1) {
+            digitFilter(texts, { number : million })
+            texts.push("million");
+        }
+
+        context.number = context.number % 1000000;
     }
 
     var thousandFilter = function(texts, context) {
