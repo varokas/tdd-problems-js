@@ -58,6 +58,11 @@ PlayerTurn.create = function(_name, _cards) {
     return new PlayerTurn(_name, Hand.create(_cards));
 };
 
+function Casino(_player1, _player2) {
+    this.judge = function(_player1, _player2) {
+        return '';
+    };
+}
 
 
 

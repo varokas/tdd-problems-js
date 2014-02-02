@@ -21,7 +21,8 @@ function StraightClassifier() {
     };
 
     this.getRank = function(cards) {
-       return 1;
+        var sortedHands = cards.card.sort(function(a, b) { return a.score() - b.score(); });
+        return sortedHands[sortedHands.length - 1].score();
     };
 
     function isStraight(cards) {
