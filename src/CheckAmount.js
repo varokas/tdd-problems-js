@@ -18,11 +18,7 @@ CheckAmount = (function() {
         var resultText = [];
         var context = {"number": number};
 
-        var filters = [millionFilter];
-
-        filters.forEach(function(filter) {
-            filter(resultText, context);
-        });
+        millionFilter(resultText, context);
 
         return resultText.filter(function(e) { return e != '' }).join(' ');
     }
