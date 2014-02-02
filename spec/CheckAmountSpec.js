@@ -113,7 +113,6 @@ describe("When CheckAmount is instantiated with ", function () {
             { word: "nine hundred two thousand three hundred fifty one dollars", number: 902351 },
             { word: "fifty three thousand dollars", number: 53000 },
             { word: "four hundred fifty three thousand three hundred fifty one dollars", number: 453351 },
-            { word: "four hundred fifty three thousand three hundred fifty one dollars", number: 1000000 },
         ].forEach(function (e) {
             it("should return \"" + e.word + "\" when given value is " + e.number, function () {
                 debugger
