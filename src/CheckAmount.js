@@ -34,57 +34,42 @@ var CheckAmount = function(value) {
         19: 'nineteen'
     };
 
-    function isOne(number) {
-        return number === 1;
-    }
+    var hundredsFilter = createNestedFilter(100,     "hundred",  baseFilter),
+        thousandFilter = createNestedFilter(1000,    "thousand", hundredsFilter),
+        millionFilter  = createNestedFilter(1000000, "million",  thousandFilter);
 
     function getCurrency(number) {
-        return isOne(number) ? 'dollar' : 'dollars';
+        var isOne = number === 1;
+        return isOne ? 'dollar' : 'dollars';
     }
 
-    function getNumberText(number) {
-        var resultText = millionFilter(number),
-            isNotEmpty = function(e) { return e !== ''; };
-
-        return resultText.flatten().filter(isNotEmpty).join(' ');
-    }
-
-    function millionFilter(number) {
-        var million = parseInt(number / 1000000);
-        return (million) ? [getNumberText(million), "million", thousandFilter(number % 1000000)]
-                         : [thousandFilter(number % 1000000)];
-    }
-
-    function thousandFilter(number) {
-        var thousand = parseInt(number / 1000);
-        return (thousand) ? [getNumberText(thousand), "thousand", hundredsFilter(number % 1000)]
-                          : [hundredsFilter(number % 1000)];
-    }
-
-    function hundredsFilter(number) {
-        var hundred = parseInt(number / 100);
-        return (hundred) ? [getNumberText(hundred), "hundred", tensFilter(number % 100)]
-                         : [tensFilter(number % 100)];
-    }
-
-    function tensFilter(number) {
+    function baseFilter(number) {
         var tens = parseInt(number / 10);
-        return (tens > 1) ? [tensText[tens], digitFilter(number % 10)]
-                          : [digitFilter(number)];
+        return (tens > 1) ? [tensText[tens], singleUnitText[number % 10]]
+                          : [[singleUnitText[number]]];
     }
 
-    function digitFilter(number) {
-        return [singleUnitText[number]];
+    function createNestedFilter(base, name, nextFilter) {
+        return function(number) {
+            var unit = parseInt(number / base);
+            return (unit) ? [numberToText(unit), name, nextFilter(number % base)]
+                          : [nextFilter(number % base)];
+        }
+    }
+
+    function numberToText(number) {
+        var isNotEmpty = function(e) { return e !== ''; };
+        return millionFilter(number).flatten().filter(isNotEmpty).join(' ');
     }
 
     CheckAmount.prototype.toString = function () {
-        return getNumberText(value) + ' ' + getCurrency(value);
+        return numberToText(value) + ' ' + getCurrency(value);
     };
 };
 
 Array.prototype.flatten = function() {
-  return this.reduce(function(prev, cur) {
-    var more = [].concat(cur).some(Array.isArray);
-    return prev.concat(more ? cur.flatten() : cur);
-  },[]);
+    return this.reduce(function(prev, cur) {
+        var more = [].concat(cur).some(Array.isArray);
+        return prev.concat(more ? cur.flatten() : cur);
+    },[]);
 };
