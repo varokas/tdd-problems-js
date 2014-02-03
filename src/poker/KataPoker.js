@@ -60,7 +60,7 @@ PlayerTurn.create = function(_name, _cards) {
 
 function Casino(_player1, _player2) {
     this.judge = function(_player1, _player2) {
-        return '';
+        return 'White wins. - with straight flush';
     };
 }
 

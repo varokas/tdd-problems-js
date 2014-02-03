@@ -58,7 +58,6 @@ var CardHelper = {
 };
 
 function OfKindClassifier(_number, _name) {
-
     this.name = _name;
 
     this.isClassifyAs = function(cards) {
@@ -90,7 +89,6 @@ function CompositeClassifier(_classifiers, _name) {
 }
 
 var PokerHandClassifiers = (function() {
-
     var pair          = new OfKindClassifier(2, 'Pair'),
         twoPairs      = new TwoPairClassifier(),
         threeOfKind   = new OfKindClassifier(3, 'Three of a Kind'),

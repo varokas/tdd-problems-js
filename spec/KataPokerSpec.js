@@ -53,7 +53,6 @@ describe('PokerGame', function () {
     });
 
     describe('PlayerTurn', function() {
-
         it('can show "High Card" if hand do not fit any higher category', function() {
             var white = PlayerTurn.create('White', ['3S', '1C', '4D', '9H', '6S']);
             expect('High Card').toEqual(white.rankOnHand());
