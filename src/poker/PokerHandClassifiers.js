@@ -78,15 +78,15 @@ var PokerHandClassifiers = (function() {
 	}
     }
 
-    function TwoPairClassifier() {
-	this.name = "Two Pairs";
+    function PairClassifier(_numberOfPairs, _name) {
+	this.name = _name;
 
 	this.isClassifyAs = function(cards) {
 	    var rankWithPairs = cards
 		.countBy(cardScore)
 		.filter(isPair);
 
-	    return rankWithPairs.length === 2;
+	    return rankWithPairs.length === _numberOfPairs;
 	};
 
 	function isPair(count, rank) { return count === 2; };
@@ -105,8 +105,8 @@ var PokerHandClassifiers = (function() {
     }
 
 
-    var pair          = new OfKindClassifier(2, 'Pair'),
-        twoPairs      = new TwoPairClassifier(),
+    var pair          = new PairClassifier(1, 'Pair'),
+	twoPairs      = new PairClassifier(2, 'Two Pairs'),
         threeOfKind   = new OfKindClassifier(3, 'Three of a Kind'),
         straight      = new StraightClassifier(),
         flush         = new FlushClassifier(),
