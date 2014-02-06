@@ -29,44 +29,30 @@ Card.fromCode = function(code) {
     return new Card(code[0], code[1]);
 };
 
-function Hand(_cards, _classifier) {
-    this.cards = _cards;
+function PlayerTurn(_name, _hand, _classifier) {
+    this.name       = _name;
+    this.hand       = _hand;
     this.classifier = _classifier;
 
     this.rankOnHand = function() {
-        return this.classifier.name;
-    };
-}
-
-Hand.create = function(_cards) {
-    var cards      = _cards.map(Card.fromCode);
-    var classifier = PokerHandClassifiers.matches(cards);
-
-    return new Hand(cards, classifier);
-};
-
-function PlayerTurn(_name, _hand) {
-    this.name  = _name;
-    this.hand  = _hand;
-
-    this.rankOnHand = function() {
-	return this.hand.rankOnHand();
+	return this.classifier.name;
     };
 
-    this.duel = function(_otherPlayer) {
-	return this.hand.classifier.compareTo(_otherPlayer.hand.classifier) > 0 ? _otherPlayer : this;
+    this.compareTo = function(_otherPlayer) {
+	return this.classifier.compareTo(_otherPlayer.classifier);
     }
 }
 
-PlayerTurn.create = function(_name, _cards) {
-    return new PlayerTurn(_name, Hand.create(_cards));
+PlayerTurn.create = function(_name, _shortCards) {
+    var hand       = _shortCards.map(Card.fromCode);
+    var classifier = PokerHandClassifiers.matches(hand);
+    return new PlayerTurn(_name, hand, classifier);
 };
 
 function Casino(_player1, _player2) {
-    var pokerClassifiersScore = ["Two Pairs", "Flush", "Full House", "Straight Flush"];
 
     this.judge = function() {
-	var winner = _player1.duel(_player2);
+	var winner = _player1.compareTo(_player2) < 0 ? _player1 : _player2;
 	return winner.name + " wins. - with " + winner.rankOnHand().toLowerCase();
     };
 }

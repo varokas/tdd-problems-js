@@ -49,8 +49,8 @@ describe('PokerGame', function () {
 	    });
 
 	    it("getRank() returns highest card", function() {
-		var hand = Hand.create(['3S', '7D', '5S', '4S', '6H']);
-		expect(straight.getRank(hand.cards)).toBe(7);
+		var player = PlayerTurn.create('White', ['3S', '7D', '5S', '4S', '6H']);
+		expect(straight.getRank(player.hand)).toBe(7);
 	    });
 	});
     });
