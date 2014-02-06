@@ -101,6 +101,13 @@ var PokerHandClassifiers = (function() {
 
     var classifiers = [ straightflush, fourOfKind, fullhouse, flush, straight, threeOfKind, twoPairs, pair, highCard];
 
+    classifiers.forEach(function(self) {
+	self.compareTo = function(_other) {
+	    return classifiers.indexOf(self) > classifiers.indexOf(_other);
+	}
+    });
+
+
     var matches = function(cards) {
 
         var matchedClassifier = classifiers.reduce(function(result, classifier) {
@@ -110,13 +117,8 @@ var PokerHandClassifiers = (function() {
 	return matchedClassifier;
     };
 
-    var compare = function(_classifier1, _classifier2) {
-	return classifiers.indexOf(_classifier1) > classifiers.indexOf(_classifier2)
-    }
-
     return {
-		matches: matches,
-		compare : compare
+		matches: matches
 	   };
 }());
 
