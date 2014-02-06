@@ -103,21 +103,54 @@ describe('PokerGame', function () {
     });
 
     describe('Casino', function() {
-        it('should say White win by Straight Flush', function() {
-            var black = PlayerTurn.create('Black', ['2S', '8S', 'AS', 'QS', '3S']);
-            var white = PlayerTurn.create('White', ['3S', '4S', '5S', '6S', '7S']);
-            expect(new Casino(black, white).judge()).toEqual('White wins. - with straight flush');
-        });
-        it('should say White win by Flush', function() {
-            var black = PlayerTurn.create('Black', ['2H', '3S', '4C', '2D', '4H']);
-            var white = PlayerTurn.create('White', ['2S', '8S', 'AS', 'QS', '3S']);
-            expect(new Casino(black, white).judge()).toEqual('White wins. - with flush');
-        });
-	it('should say Black win by Full house when White has Flush and Black has Full house', function() {
+
+	it('should say White win by Straight Flush over Black Four of a kind', function() {
+	    var black = PlayerTurn.create('Black', ['2S', '2D', '2H', '2C', '3C']);
+	    var white = PlayerTurn.create('White', ['3S', '4S', '5S', '6S', '7S']);
+	    expect(new Casino(black, white).judge()).toEqual('White wins. - with straight flush');
+	});
+
+	it('should say White win by Four of Kind over Black Full house', function() {
+	    var white = PlayerTurn.create('White', ['5S', '5D', '5H', '5C', '3S']);
+	    var black = PlayerTurn.create('Black', ['2H', '4S', '4C', '2D', '4H']);
+	    expect(new Casino(black, white).judge()).toEqual('White wins. - with four of a kind');
+	});
+
+	it('should say Black win by Full house over White Flush', function() {
 	    var white = PlayerTurn.create('White', ['2S', '8S', 'AS', 'QS', '3S']);
 	    var black = PlayerTurn.create('Black', ['2H', '4S', '4C', '2D', '4H']);
 	    expect(new Casino(black, white).judge()).toEqual('Black wins. - with full house');
-        });
+	});
+
+	it('should say Black win by Flush over White Straight', function() {
+	    var white = PlayerTurn.create('White', ['3H', '4D', '5C', '6D', '7H']);
+	    var black = PlayerTurn.create('Black', ['2S', '4S', '6S', '8S', 'QS']);
+	    expect(new Casino(black, white).judge()).toEqual('Black wins. - with flush');
+	});
+
+	it('should say White win by Straight over Black Three of a Kind', function() {
+	    var black = PlayerTurn.create('Black', ['2H', '2S', '2C', '3D', '4H']);
+	    var white = PlayerTurn.create('White', ['3S', '4C', '5D', '6H', '7S']);
+	    expect(new Casino(black, white).judge()).toEqual('White wins. - with straight');
+	});
+
+	it('should say White win by Three of a Kind over Black Two Pairs', function() {
+	    var black = PlayerTurn.create('Black', ['5H', '5C', '3D', '3C', '4C']);
+	    var white = PlayerTurn.create('White', ['2S', '2H', '2D', '3H', '4S']);
+	    expect(new Casino(black, white).judge()).toEqual('White wins. - with three of a kind');
+	});
+
+	it('should say Black win by Two Pairs over White Pair', function() {
+	    var white = PlayerTurn.create('White', ['3H', '3D', '6C', '7D', '8H']);
+	    var black = PlayerTurn.create('Black', ['2H', '4S', '4C', '2D', '5H']);
+	    expect(new Casino(black, white).judge()).toEqual('Black wins. - with two pairs');
+	});
+
+	it('should say White win by Pair over Black High Card', function() {
+	    var black = PlayerTurn.create('Black', ['5H', '7C', 'QD', 'KC', '9C']);
+	    var white = PlayerTurn.create('White', ['2S', '2H', '3D', '4H', '5S']);
+	    expect(new Casino(black, white).judge()).toEqual('White wins. - with pair');
+	});
 
     });
 });
