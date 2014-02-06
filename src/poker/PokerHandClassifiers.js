@@ -119,16 +119,16 @@ var PokerHandClassifiers = (function() {
     };
 
     return {
-		highCard : highCard,
-		pair : pair,
-		twoPairs : twoPairs,
-		threeOfKind : threeOfKind,
-		straight : straight,
-		flush : flush,
-		fullhouse : fullhouse,
-		fourOfKind : fourOfKind,
+		highCard      : highCard,
+		pair          : pair,
+		twoPairs      : twoPairs,
+		threeOfKind   : threeOfKind,
+		straight      : straight,
+		flush         : flush,
+		fullhouse     : fullhouse,
+		fourOfKind    : fourOfKind,
 		straightflush : straightflush,
-		matches: matches
+		matches       : matches
 	   };
 }());
 

@@ -20,7 +20,7 @@ function Card(_rank, _suite) {
             case 'Q': return 12;
             case 'J': return 11;
             case 'T': return 10;
-            default: return parseInt(_rank, 10);
+	    default : return parseInt(_rank, 10);
         }
     }
 }
@@ -40,7 +40,7 @@ function PlayerTurn(_name, _hand, _classifier) {
 
     this.compareTo = function(_otherPlayer) {
 	return this.classifier.compareTo(_otherPlayer.classifier);
-    }
+    };
 }
 
 PlayerTurn.create = function(_name, _shortCards) {
