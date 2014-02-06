@@ -5,14 +5,32 @@ nonew: true, regexp: true, undef: true, globalstrict: true, trailing: true*/
 
 'use strict';
 
+Array.prototype.countBy = function(_fn) {
+    _fn = _fn || function() { };
+    return this.reduce(function(aggr, card, index, array) {
+	    var key = _fn(card, index, array);
+	    var counter = aggr[key] || 0;
+	    aggr[key] = counter + 1;
+	    return aggr;
+    }, []);
+}
+
 var PokerHandClassifiers = (function() {
+
+    function scoreComparator(a, b) { return a.score() - b.score(); }
+
+    function cardScore(card) { return card.score(); }
 
     var HighCardClassifier = function(others) {
 	this.name = 'High Card';
 
 	this.isClassifyAs = function(cards) {
-	    return others.every(function(classifier) { return classifier.isClassifyAs(cards) === false; });
+	    return others.every(isNotClassified(cards));
 	};
+
+	function isNotClassified(cards) {
+	    return function(classifier) { return classifier.isClassifyAs(cards) === false; }
+	}
     };
 
     function StraightClassifier() {
@@ -23,12 +41,12 @@ var PokerHandClassifiers = (function() {
 	};
 
 	this.getRank = function(cards) {
-	    var sortedHands = cards.sort(function(a, b) { return a.score() - b.score(); });
+	    var sortedHands = cards.sort(scoreComparator);
 	    return sortedHands[sortedHands.length - 1].score();
 	};
 
 	function isStraight(cards) {
-	   var actualScores   = cards.map(function(c) { return c.score(); }).sort(),
+	   var actualScores   = cards.map(cardScore).sort(),
 	       expectedScores = actualScores.map(function(score, index, array) { return array[0] + index; }),
 	       isEquals       = actualScores.length === expectedScores.length && actualScores.join() === expectedScores.join();
 
@@ -48,25 +66,14 @@ var PokerHandClassifiers = (function() {
 	}
     }
 
-    var CardHelper = {
-	countByRank: function(cards) {
-	    return cards.reduce(
-		function(aggr, card) {
-		    var counter = aggr[card.rank] || 0;
-		    aggr[card.rank] = counter + 1;
-		    return aggr;
-	     }, []);
-	}
-    };
-
     function OfKindClassifier(_number, _name) {
 	this.name = _name;
 
 	this.isClassifyAs = function(cards) {
-	    return CardHelper.countByRank(cards).some(haveDuplicatesRank);
+	    return cards.countBy(cardScore).some(haveDuplicatesScore);
 	};
 
-	function haveDuplicatesRank(count) {
+	function haveDuplicatesScore(count) {
 	    return count === _number;
 	}
     }
@@ -75,18 +82,25 @@ var PokerHandClassifiers = (function() {
 	this.name = "Two Pairs";
 
 	this.isClassifyAs = function(cards) {
-	    var rankWithPairs = CardHelper
-		.countByRank(cards)
-		.filter(function(count, rank) { return count === 2; });
+	    var rankWithPairs = cards
+		.countBy(cardScore)
+		.filter(isPair);
+
 	    return rankWithPairs.length === 2;
 	};
+
+	function isPair(count, rank) { return count === 2; };
     }
 
     function CompositeClassifier(_classifiers, _name) {
 	this.name = _name;
 
 	this.isClassifyAs = function(cards) {
-	    return _classifiers.every(function(classifier) { return classifier.isClassifyAs(cards); });
+	    return _classifiers.every(isClassified(cards));
+	};
+
+	function isClassified(cards) {
+	    return function (classifier) { return classifier.isClassifyAs(cards); }
 	};
     }
 
@@ -110,12 +124,7 @@ var PokerHandClassifiers = (function() {
     });
 
     var matches = function(cards) {
-
-	var matchedClassifier = classifiers.reduce(function(result, classifier) {
-            return result || (classifier.isClassifyAs(cards) ? classifier : undefined);
-        }, undefined);
-
-	return matchedClassifier;
+	return classifiers.filter(function(classifier) { return classifier.isClassifyAs(cards) })[0];
     };
 
     return {
