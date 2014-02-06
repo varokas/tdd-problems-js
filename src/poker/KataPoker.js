@@ -54,7 +54,7 @@ function PlayerTurn(_name, _hand) {
     };
 
     this.duel = function(_otherPlayer) {
-	return this.hand.classifier.compareTo(_otherPlayer.hand.classifier) ? _otherPlayer : this;
+	return this.hand.classifier.compareTo(_otherPlayer.hand.classifier) > 0 ? _otherPlayer : this;
     }
 }
 

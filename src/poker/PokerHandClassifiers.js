@@ -105,7 +105,7 @@ var PokerHandClassifiers = (function() {
 
     classifiers.forEach(function(self) {
 	self.compareTo = function(_other) {
-	    return classifiers.indexOf(self) > classifiers.indexOf(_other);
+	    return classifiers.indexOf(self) - classifiers.indexOf(_other);
 	}
     });
 
