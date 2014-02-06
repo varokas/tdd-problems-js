@@ -59,7 +59,7 @@ PlayerTurn.create = function(_name, _cards) {
 };
 
 function Casino(_player1, _player2) {
-    var pokerClassifiersScore = ["Two Pairs", "Flush"];
+    var pokerClassifiersScore = ["Two Pairs", "Flush", "Full House"];
 
     this.judge = function() {
         if (pokerClassifiersScore.indexOf(_player1.rankOnHand()) < pokerClassifiersScore.indexOf(_player2.rankOnHand())) {
