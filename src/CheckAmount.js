@@ -34,9 +34,10 @@ var CheckAmount = function(value) {
         19: 'nineteen'
     };
 
-    var hundredsFilter = createNestedFilter(100,     "hundred",  baseFilter),
-        thousandFilter = createNestedFilter(1000,    "thousand", hundredsFilter),
-        millionFilter  = createNestedFilter(1000000, "million",  thousandFilter);
+    var hundredsFilter = createNestedFilter(100,        "hundred",   baseFilter),
+        thousandFilter = createNestedFilter(1000,       "thousand",  hundredsFilter),
+        millionFilter  = createNestedFilter(1000000,    "million",   thousandFilter);
+        billionFilter  = createNestedFilter(1000000000, "billion",   millionFilter);
 
     function getCurrency(number) {
         var isOne = number === 1;
@@ -46,21 +47,29 @@ var CheckAmount = function(value) {
     function baseFilter(number) {
         var tens  = parseInt(number / 10);
         var digit = number % 10;
-        return (tens > 1) ? [(digit) ? tensText[tens] + "-" + singleUnitText[digit] : tensText[tens]]
-                          : [singleUnitText[number]];
+        return (tens > 1) ?
+            [(digit) ?
+                tensText[tens] + "-" + singleUnitText[digit]
+                : tensText[tens]]
+            : [singleUnitText[number]];
     }
 
     function createNestedFilter(base, name, nextFilter) {
+        console.log(nextFilter);
         return function(number) {
             var unit = parseInt(number / base);
-            return (unit) ? [numberToText(unit), name, nextFilter(number % base)]
-                          : [nextFilter(number % base)];
+            return (unit) ?
+                [numberToText(unit), name, nextFilter(number % base)]
+                : [nextFilter(number % base)];
         };
     }
 
     function numberToText(number) {
         var isNotEmpty = function(e) { return e !== ''; };
-        return millionFilter(number).flatten().filter(isNotEmpty).join(' ');
+        if(number >= 1000000000)
+            return billionFilter(number).flatten().filter(isNotEmpty).join(' ');
+        else
+            return millionFilter(number).flatten().filter(isNotEmpty).join(' ');
     }
 
     CheckAmount.prototype.toString = function () {
