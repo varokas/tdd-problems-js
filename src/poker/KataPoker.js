@@ -52,6 +52,11 @@ function PlayerTurn(_name, _hand) {
     this.rankOnHand = function() {
         return this.hand.rankOnHand();
     };
+
+    var pokerClassifiersScore = ["Two Pairs", "Flush", "Full House", "Straight Flush"];
+    this.duel = function(_otherPlayer) {
+	return (pokerClassifiersScore.indexOf(this.rankOnHand()) < pokerClassifiersScore.indexOf(_otherPlayer.rankOnHand())) ? _otherPlayer : this;
+    }
 }
 
 PlayerTurn.create = function(_name, _cards) {
@@ -62,11 +67,8 @@ function Casino(_player1, _player2) {
     var pokerClassifiersScore = ["Two Pairs", "Flush", "Full House", "Straight Flush"];
 
     this.judge = function() {
-        if (pokerClassifiersScore.indexOf(_player1.rankOnHand()) < pokerClassifiersScore.indexOf(_player2.rankOnHand())) {
-            return _player2.name + " wins. - with " + _player2.rankOnHand().toLowerCase();
-	} else {
-	    return _player1.name + " wins. - with " + _player1.rankOnHand().toLowerCase();
-        }
+	var winner = _player1.duel(_player2);
+	return winner.name + " wins. - with " + winner.rankOnHand().toLowerCase();
     };
 }
 
