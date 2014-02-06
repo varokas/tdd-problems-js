@@ -20,7 +20,7 @@ function Card(_rank, _suite) {
             case 'Q': return 12;
             case 'J': return 11;
             case 'T': return 10;
-	    default : return parseInt(_rank, 10);
+            default : return parseInt(_rank, 10);
         }
     }
 }
@@ -29,17 +29,25 @@ Card.fromCode = function(code) {
     return new Card(code[0], code[1]);
 };
 
+Card.comparator = function(a, b) {
+    return a.score() - b.score();
+}
+
+Card.cardScore = function(card) {
+    return card.score();
+}
+
 function PlayerTurn(_name, _hand, _classifier) {
     this.name       = _name;
     this.hand       = _hand;
     this.classifier = _classifier;
 
     this.rankOnHand = function() {
-	return this.classifier.name;
+        return this.classifier.name;
     };
 
     this.compareTo = function(_otherPlayer) {
-	return this.classifier.compareTo(_otherPlayer.classifier);
+        return this.classifier.compareTo(_otherPlayer.classifier);
     };
 }
 
@@ -52,8 +60,8 @@ PlayerTurn.create = function(_name, _shortCards) {
 function Casino(_player1, _player2) {
 
     this.judge = function() {
-	var winner = _player1.compareTo(_player2) < 0 ? _player1 : _player2;
-	return winner.name + " wins. - with " + winner.rankOnHand().toLowerCase();
+        var winner = _player1.compareTo(_player2) < 0 ? _player1 : _player2;
+        return winner.name + " wins. - with " + winner.rankOnHand().toLowerCase();
     };
 }
 
