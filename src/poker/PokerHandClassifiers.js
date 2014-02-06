@@ -110,9 +110,13 @@ var PokerHandClassifiers = (function() {
 	return matchedClassifier;
     };
 
+    var compare = function(_classifier1, _classifier2) {
+	return classifiers.indexOf(_classifier1) > classifiers.indexOf(_classifier2)
+    }
+
     return {
 		matches: matches,
-		classifiers : classifiers
+		compare : compare
 	   };
 }());
 

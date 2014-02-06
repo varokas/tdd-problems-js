@@ -54,7 +54,7 @@ function PlayerTurn(_name, _hand) {
     };
 
     this.duel = function(_otherPlayer) {
-	return PokerHandClassifiers.classifiers.indexOf(this.hand.classifier) > PokerHandClassifiers.classifiers.indexOf(_otherPlayer.hand.classifier) ? _otherPlayer : this;
+	return PokerHandClassifiers.compare(this.hand.classifier, _otherPlayer.hand.classifier) ? _otherPlayer : this;
     }
 }
 
