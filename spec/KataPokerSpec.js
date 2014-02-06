@@ -41,13 +41,16 @@ describe('PokerGame', function () {
 
     describe('Classifiers', function() {
 	describe('Straight Classifier', function() {
+
+	    var straight = PokerHandClassifiers.straight;
+
 	    it("has name of 'Straight'", function() {
-		expect(PokerHandClassifiers.straight.name).toBe("Straight");
+		expect(straight.name).toBe("Straight");
 	    });
 
 	    it("getRank() returns highest card", function() {
 		var hand = Hand.create(['3S', '7D', '5S', '4S', '6H']);
-		expect(PokerHandClassifiers.straight.getRank(hand)).toBe(7);
+		expect(straight.getRank(hand.cards)).toBe(7);
 	    });
 	});
     });

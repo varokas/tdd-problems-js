@@ -23,7 +23,7 @@ var PokerHandClassifiers = (function() {
 	};
 
 	this.getRank = function(cards) {
-	    var sortedHands = cards.card.sort(function(a, b) { return a.score() - b.score(); });
+	    var sortedHands = cards.sort(function(a, b) { return a.score() - b.score(); });
 	    return sortedHands[sortedHands.length - 1].score();
 	};
 

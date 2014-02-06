@@ -30,7 +30,7 @@ Card.fromCode = function(code) {
 };
 
 function Hand(_cards, _classifier) {
-    this.card = _cards;
+    this.cards = _cards;
     this.classifier = _classifier;
 
     this.rankOnHand = function() {
