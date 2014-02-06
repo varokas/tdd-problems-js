@@ -128,6 +128,7 @@ describe("When CheckAmount is instantiated with ", function () {
             { word: "fifty-three thousand dollars", number: 53000 },
             { word: "four hundred fifty-three thousand three hundred fifty-one dollars", number: 453351 },
             { word: "four hundred fifty-three million three hundred fifty-one thousand two hundred thirty-two dollars", number: 453351232 },
+            { word: "two thousand five hundred twenty-three and 04/100 dollars", number: 2523.04 }
         ].forEach(function (e) {
             it("should return \"" + e.word + "\" when given value is " + e.number, function () {
                 expect(new CheckAmount(e.number).toString()).toEqual(e.word);
