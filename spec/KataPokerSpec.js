@@ -100,15 +100,20 @@ describe('PokerGame', function () {
     });
 
     describe('Casino', function() {
-        it('should say Black win by Straight Flush', function() {
-            var black = PlayerTurn.create('black', ['2S', '8S', 'AS', 'QS', '3S']);
-            var white = PlayerTurn.create('white', ['3S', '4S', '5S', '6S', '7S']);
+        it('should say White win by Straight Flush', function() {
+            var black = PlayerTurn.create('Black', ['2S', '8S', 'AS', 'QS', '3S']);
+            var white = PlayerTurn.create('White', ['3S', '4S', '5S', '6S', '7S']);
             expect(new Casino(black, white).judge()).toEqual('White wins. - with straight flush');
         });
         it('should say White win by Flush', function() {
-            var black = PlayerTurn.create('black', ['2H', '4S', '4C', '2D', '4H']);
-            var white = PlayerTurn.create('white', ['2S', '8S', 'AS', 'QS', '3S']);
-            expect(new Casino(black, white).judge()).toEqual('White wins. - with flash');
+            var black = PlayerTurn.create('Black', ['2H', '3S', '4C', '2D', '4H']);
+            var white = PlayerTurn.create('White', ['2S', '8S', 'AS', 'QS', '3S']);
+            expect(new Casino(black, white).judge()).toEqual('White wins. - with flush');
+        });
+        it('should say White win by Full house when Black has Flush and White has Full house', function() {
+            var black = PlayerTurn.create('Black', ['2S', '8S', 'AS', 'QS', '3S']);
+            var white = PlayerTurn.create('White', ['2H', '4S', '4C', '2D', '4H']);
+            expect(new Casino(black, white).judge()).toEqual('White wins. - with full house');
         });
     });
 });

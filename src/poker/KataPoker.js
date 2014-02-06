@@ -59,7 +59,12 @@ PlayerTurn.create = function(_name, _cards) {
 };
 
 function Casino(_player1, _player2) {
-    this.judge = function(_player1, _player2) {
+    var pokerClassifiersScore = ["Two Pairs", "Flush"];
+
+    this.judge = function() {
+        if (pokerClassifiersScore.indexOf(_player1.rankOnHand()) < pokerClassifiersScore.indexOf(_player2.rankOnHand())) {
+            return _player2.name + " wins. - with " + _player2.rankOnHand().toLowerCase();
+        }
         return 'White wins. - with straight flush';
     };
 }
