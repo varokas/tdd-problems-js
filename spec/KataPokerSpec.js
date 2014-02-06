@@ -42,12 +42,12 @@ describe('PokerGame', function () {
     describe('Classifiers', function() {
         describe('StraightFlushClassifier', function() {
             it("has name of 'Straight Flush'", function() {
-                expect(new StraightClassifier().name).toBe("Straight");
+		expect(PokerHandClassifiers.straight.name).toBe("Straight");
             });
 
             it("getRank() returns highest card", function() {
                 var cards = Hand.create(['3S', '7D', '5S', '4S', '6H']);
-                expect(new StraightClassifier().getRank(cards)).toBe(7);
+		expect(PokerHandClassifiers.straight.getRank(cards)).toBe(7);
             });
         });
     });
