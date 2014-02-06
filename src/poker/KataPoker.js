@@ -50,12 +50,11 @@ function PlayerTurn(_name, _hand) {
     this.hand  = _hand;
 
     this.rankOnHand = function() {
-        return this.hand.rankOnHand();
+	return this.hand.rankOnHand();
     };
 
-    var pokerClassifiersScore = ["Two Pairs", "Flush", "Full House", "Straight Flush"];
     this.duel = function(_otherPlayer) {
-	return (pokerClassifiersScore.indexOf(this.rankOnHand()) < pokerClassifiersScore.indexOf(_otherPlayer.rankOnHand())) ? _otherPlayer : this;
+	return PokerHandClassifiers.classifiers.indexOf(this.hand.classifier) > PokerHandClassifiers.classifiers.indexOf(_otherPlayer.hand.classifier) ? _otherPlayer : this;
     }
 }
 

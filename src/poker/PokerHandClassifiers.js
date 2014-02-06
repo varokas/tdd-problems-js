@@ -96,9 +96,10 @@ var PokerHandClassifiers = (function() {
         flush         = new FlushClassifier(),
         fullhouse     = new CompositeClassifier([pair, threeOfKind], 'Full House'),
         fourOfKind    = new OfKindClassifier(4, 'Four of a Kind'),
-        straightflush = new CompositeClassifier([straight, flush], 'Straight Flush');
+	straightflush = new CompositeClassifier([straight, flush], 'Straight Flush'),
+	highCard      = new HighCardClassifier([ straightflush, fourOfKind, fullhouse, flush, straight, threeOfKind, twoPairs, pair ]);
 
-    var classifiers = [ straightflush, fourOfKind, fullhouse, flush, straight, threeOfKind, twoPairs, pair ];
+    var classifiers = [ straightflush, fourOfKind, fullhouse, flush, straight, threeOfKind, twoPairs, pair, highCard];
 
     var matches = function(cards) {
 
@@ -106,10 +107,13 @@ var PokerHandClassifiers = (function() {
             return result || (classifier.isClassifyAs(cards) ? classifier : undefined);
         }, undefined);
 
-        return matchedClassifier || new HighCardClassifier([classifiers]);
+	return matchedClassifier;
     };
 
-    return { matches: matches };
+    return {
+		matches: matches,
+		classifiers : classifiers
+	   };
 }());
 
 
