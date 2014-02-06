@@ -40,16 +40,16 @@ describe('PokerGame', function () {
     });
 
     describe('Classifiers', function() {
-        describe('StraightFlushClassifier', function() {
-            it("has name of 'Straight Flush'", function() {
+	describe('Straight Classifier', function() {
+	    it("has name of 'Straight'", function() {
 		expect(PokerHandClassifiers.straight.name).toBe("Straight");
-            });
+	    });
 
-            it("getRank() returns highest card", function() {
-                var cards = Hand.create(['3S', '7D', '5S', '4S', '6H']);
-		expect(PokerHandClassifiers.straight.getRank(cards)).toBe(7);
-            });
-        });
+	    it("getRank() returns highest card", function() {
+		var hand = Hand.create(['3S', '7D', '5S', '4S', '6H']);
+		expect(PokerHandClassifiers.straight.getRank(hand)).toBe(7);
+	    });
+	});
     });
 
     describe('PlayerTurn', function() {
