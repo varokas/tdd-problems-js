@@ -104,51 +104,61 @@ describe('PokerGame', function () {
 
     describe('Casino', function() {
 
+	    var highCard  = ['5H', '7C', 'QD', 'KC', '9C'],
+	    pair          = ['8H', '8C', '6C', 'AH', '5S'],
+	    twoPairs      = ['KD', 'KS', '3H', '3C', '4C'],
+	    threeOfKind   = ['TH', 'TS', 'TC', '8D', 'KH'],
+	    straight      = ['4H', '5C', '6S', '7H', '8S'],
+	    flush         = ['7S', '9S', 'AS', 'JS', '3S'],
+	    fullHouse     = ['JH', 'QS', 'QC', 'JD', 'JC'],
+	    fourOfKind    = ['2S', '2D', '2H', '2C', 'AC'],
+	    straightflush = ['3D', '4D', '5D', '6D', '7D'];
+
 	it('should say White win by Straight Flush over Black Four of a kind', function() {
-	    var black = PlayerTurn.create('Black', ['2S', '2D', '2H', '2C', '3C']);
-	    var white = PlayerTurn.create('White', ['3S', '4S', '5S', '6S', '7S']);
+	    var black = PlayerTurn.create('Black', fourOfKind);
+	    var white = PlayerTurn.create('White', straightflush);
 	    expect(new Casino(black, white).judge()).toEqual('White wins. - with straight flush');
 	});
 
 	it('should say White win by Four of Kind over Black Full house', function() {
-	    var white = PlayerTurn.create('White', ['5S', '5D', '5H', '5C', '3S']);
-	    var black = PlayerTurn.create('Black', ['2H', '4S', '4C', '2D', '4H']);
+	    var white = PlayerTurn.create('White', fourOfKind);
+	    var black = PlayerTurn.create('Black', fullHouse);
 	    expect(new Casino(black, white).judge()).toEqual('White wins. - with four of a kind');
 	});
 
 	it('should say Black win by Full house over White Flush', function() {
-	    var white = PlayerTurn.create('White', ['2S', '8S', 'AS', 'QS', '3S']);
-	    var black = PlayerTurn.create('Black', ['2H', '4S', '4C', '2D', '4H']);
+	    var white = PlayerTurn.create('White', flush);
+	    var black = PlayerTurn.create('Black', fullHouse);
 	    expect(new Casino(black, white).judge()).toEqual('Black wins. - with full house');
 	});
 
 	it('should say Black win by Flush over White Straight', function() {
-	    var white = PlayerTurn.create('White', ['3H', '4D', '5C', '6D', '7H']);
-	    var black = PlayerTurn.create('Black', ['2S', '4S', '6S', '8S', 'QS']);
+	    var white = PlayerTurn.create('White', straight);
+	    var black = PlayerTurn.create('Black', flush);
 	    expect(new Casino(black, white).judge()).toEqual('Black wins. - with flush');
 	});
 
 	it('should say White win by Straight over Black Three of a Kind', function() {
-	    var black = PlayerTurn.create('Black', ['2H', '2S', '2C', '3D', '4H']);
-	    var white = PlayerTurn.create('White', ['3S', '4C', '5D', '6H', '7S']);
+	    var black = PlayerTurn.create('Black', threeOfKind);
+	    var white = PlayerTurn.create('White', straight);
 	    expect(new Casino(black, white).judge()).toEqual('White wins. - with straight');
 	});
 
 	it('should say White win by Three of a Kind over Black Two Pairs', function() {
-	    var black = PlayerTurn.create('Black', ['5H', '5C', '3D', '3C', '4C']);
-	    var white = PlayerTurn.create('White', ['2S', '2H', '2D', '3H', '4S']);
+	    var black = PlayerTurn.create('Black', twoPairs);
+	    var white = PlayerTurn.create('White', threeOfKind);
 	    expect(new Casino(black, white).judge()).toEqual('White wins. - with three of a kind');
 	});
 
 	it('should say Black win by Two Pairs over White Pair', function() {
-	    var white = PlayerTurn.create('White', ['3H', '3D', '6C', '7D', '8H']);
-	    var black = PlayerTurn.create('Black', ['2H', '4S', '4C', '2D', '5H']);
+	    var white = PlayerTurn.create('White', pair);
+	    var black = PlayerTurn.create('Black', twoPairs);
 	    expect(new Casino(black, white).judge()).toEqual('Black wins. - with two pairs');
 	});
 
 	it('should say White win by Pair over Black High Card', function() {
-	    var black = PlayerTurn.create('Black', ['5H', '7C', 'QD', 'KC', '9C']);
-	    var white = PlayerTurn.create('White', ['2S', '2H', '3D', '4H', '5S']);
+	    var black = PlayerTurn.create('Black', highCard);
+	    var white = PlayerTurn.create('White', pair);
 	    expect(new Casino(black, white).judge()).toEqual('White wins. - with pair');
 	});
 
