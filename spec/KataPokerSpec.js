@@ -162,5 +162,13 @@ describe('PokerGame', function () {
 	    expect(new Casino(black, white).judge()).toEqual('White wins. - with pair');
 	});
 
+	describe('Tight game', function() {
+	    it('should say Black win by Straight over White Straight but lower card ranks', function() {
+		var black = PlayerTurn.create('Black', ['4H', '5C', '6S', '7H', '8S']);
+		var white = PlayerTurn.create('White', ['3H', '4C', '5S', '6H', '7S']);
+		expect(new Casino(black, white).judge()).toEqual('Black wins. - with straight');
+	    });
+	});
+
     });
 });
