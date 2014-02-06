@@ -110,10 +110,11 @@ describe('PokerGame', function () {
             var white = PlayerTurn.create('White', ['2S', '8S', 'AS', 'QS', '3S']);
             expect(new Casino(black, white).judge()).toEqual('White wins. - with flush');
         });
-        it('should say White win by Full house when Black has Flush and White has Full house', function() {
-            var black = PlayerTurn.create('Black', ['2S', '8S', 'AS', 'QS', '3S']);
-            var white = PlayerTurn.create('White', ['2H', '4S', '4C', '2D', '4H']);
-            expect(new Casino(black, white).judge()).toEqual('White wins. - with full house');
+	it('should say Black win by Full house when White has Flush and Black has Full house', function() {
+	    var white = PlayerTurn.create('White', ['2S', '8S', 'AS', 'QS', '3S']);
+	    var black = PlayerTurn.create('Black', ['2H', '4S', '4C', '2D', '4H']);
+	    expect(new Casino(black, white).judge()).toEqual('Black wins. - with full house');
         });
+
     });
 });

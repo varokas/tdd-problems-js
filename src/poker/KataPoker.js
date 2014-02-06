@@ -64,6 +64,8 @@ function Casino(_player1, _player2) {
     this.judge = function() {
         if (pokerClassifiersScore.indexOf(_player1.rankOnHand()) < pokerClassifiersScore.indexOf(_player2.rankOnHand())) {
             return _player2.name + " wins. - with " + _player2.rankOnHand().toLowerCase();
+	} else {
+	    return _player1.name + " wins. - with " + _player1.rankOnHand().toLowerCase();
         }
     };
 }
