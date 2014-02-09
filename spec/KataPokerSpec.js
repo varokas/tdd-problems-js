@@ -39,6 +39,40 @@ describe('PokerGame', function () {
         });
     });
 
+    describe('HandTypes', function() {
+        [
+            {constName : 'HIGH_CARD',  name:  'High Card'  },
+            {constName : 'PAIR',  name:  'Pair'  },
+            {constName : 'TWO_PAIRS',  name:  'Two Pairs'  },
+            {constName : 'THREE_OF_A_KIND',  name:  'Three of a Kind'  },
+            {constName : 'STRAIGHT',  name:  'Straight'  },
+            {constName : 'FLUSH',  name:  'Flush'  },
+            {constName : 'FULL_HOUSE',  name:  'Full House'  },
+            {constName : 'FOUR_OF_A_KIND',  name:  'Four of a Kind'  },
+            {constName : 'STRAIGHT_FLUSH',  name:  'Straight Flush'  }
+        ].forEach(function(e) {
+            it('A const name ' + e.constName + ' should have name ' + e.name, function() {
+                expect(HandTypes[e.constName].name).toBe(e.name);
+            });
+        });
+
+        [
+            {constName : 'HIGH_CARD',  order: 0  },
+            {constName : 'PAIR',  order: 1  },
+            {constName : 'TWO_PAIRS', order: 2  },
+            {constName : 'THREE_OF_A_KIND', order: 3 },
+            {constName : 'STRAIGHT', order: 4 },
+            {constName : 'FLUSH', order: 5 },
+            {constName : 'FULL_HOUSE', order: 6 },
+            {constName : 'FOUR_OF_A_KIND', order: 7 },
+            {constName : 'STRAIGHT_FLUSH', order: 8 }
+        ].forEach(function(e) {
+                it('A const name ' + e.constName + ' should have an order of ' + e.order, function() {
+                    expect(HandTypes[e.constName].order).toBe(e.order);
+                });
+            });
+    });
+
     describe('Classifiers', function() {
 	describe('Straight Classifier', function() {
 
