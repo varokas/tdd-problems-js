@@ -74,19 +74,47 @@ describe('PokerGame', function () {
     });
 
     describe('Classifiers', function() {
-	describe('Straight Classifier', function() {
+        describe('HighCardClassifier', function() {
+            it("getResult() returns hand type of HIGH_CARD", function() {
+                expect((new PokerHandClassifiers.HighCardClassifier()).getResult().handType).toBe(HandTypes.HIGH_CARD);
+            });
+        });
 
-	    var straight = PokerHandClassifiers.straight;
+        describe('StraightClassifier', function() {
+            it("getResult() returns hand type of STRAIGHT", function() {
+                expect((new PokerHandClassifiers.StraightClassifier()).getResult().handType).toBe(HandTypes.STRAIGHT);
+            });
+        });
 
-	    it("has name of 'Straight'", function() {
-		expect(straight.name).toBe("Straight");
-	    });
+        describe('FlushClassifier', function() {
+            it("getResult() returns hand type of FLUSH", function() {
+                expect((new PokerHandClassifiers.FlushClassifier()).getResult().handType).toBe(HandTypes.FLUSH);
+            });
+        });
 
-	    it("getRank() returns highest card", function() {
-		var player = PlayerTurn.create('White', ['3S', '7D', '5S', '4S', '6H']);
-		expect(straight.getRank(player.hand)).toBe(7);
-	    });
-	});
+        describe('OfKindClassifier', function() {
+            it("getResult() returns the hand type given", function() {
+                var givenHandType = HandTypes.THREE_OF_A_KIND;
+
+                expect((new PokerHandClassifiers.OfKindClassifier(3, givenHandType)).getResult().handType).toBe(givenHandType);
+            });
+        });
+
+        describe('PairClassifier', function() {
+            it("getResult() returns the hand type given", function() {
+                var givenHandType = HandTypes.PAIR;
+
+                expect((new PokerHandClassifiers.PairClassifier(1, givenHandType)).getResult().handType).toBe(givenHandType);
+            });
+        });
+
+        describe('CompositeClassifier', function() {
+            it("getResult() returns the hand type given", function() {
+                var givenHandType = HandTypes.FULL_HOUSE;
+
+                expect((new PokerHandClassifiers.CompositeClassifier([], givenHandType)).getResult().handType).toBe(givenHandType);
+            });
+        });
     });
 
     describe('PlayerTurn', function() {
