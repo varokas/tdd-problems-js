@@ -46,12 +46,12 @@ var CheckAmount = function(value) {
 
     function baseFilter(number) {
         var tens  = parseInt(number / 10);
-        var digit = number % 10;
+        var digit = ((number % 10) | 0);
         return (tens > 1) ?
             [(digit) ?
                 tensText[tens] + "-" + singleUnitText[digit]
                 : tensText[tens]]
-            : [singleUnitText[number]];
+            : [singleUnitText[number | 0]];
     }
 
     function createNestedFilter(base, name, nextFilter) {
@@ -65,11 +65,32 @@ var CheckAmount = function(value) {
     }
 
     function numberToText(number) {
-        var isNotEmpty = function(e) { return e !== ''; };
+        var isNotEmpty = function (e) { return e !== ''; };
+        var result;
+
         if(number >= 1000000000)
-            return billionFilter(number).flatten().filter(isNotEmpty).join(' ');
+            result = billionFilter(number).flatten().filter(isNotEmpty).join(' ');
         else
-            return millionFilter(number).flatten().filter(isNotEmpty).join(' ');
+            result = millionFilter(number).flatten().filter(isNotEmpty).join(' ');
+
+        result += decimalFilter(number);
+
+        return result;
+    }
+
+    function decimalFilter(number)
+    {
+        if ((number % 1) > 0) {
+            return " and " + pad((number % 1).toFixed(2) * 100, 2) + "/100";
+        }
+
+        return "";
+    }
+
+    function pad(num, size) {
+        var s = num + "";
+        while (s.length < size) s = "0" + s;
+        return s;
     }
 
     CheckAmount.prototype.toString = function () {
