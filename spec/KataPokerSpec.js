@@ -81,8 +81,16 @@ describe('PokerGame', function () {
         });
 
         describe('StraightClassifier', function() {
+            var player = PlayerTurn.create('White', ['3S', '7D', '5S', '4S', '6H']);
+            var hand = player.hand;
+
             it("getResult() returns hand type of STRAIGHT", function() {
-                expect((new PokerHandClassifiers.StraightClassifier()).getResult().handType).toBe(HandTypes.STRAIGHT);
+                expect((new PokerHandClassifiers.StraightClassifier()).getResult(hand).handType).toBe(HandTypes.STRAIGHT);
+            });
+
+
+            it("getResult() returns correct rank", function() {
+                expect((new PokerHandClassifiers.StraightClassifier()).getResult(hand).rank).toBe(7);
             });
         });
 

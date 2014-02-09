@@ -58,7 +58,7 @@ var PokerHandClassifiers = (function() {
         };
 
         this.getResult = function(cards) {
-            return new ClassifyingResult(HandTypes.STRAIGHT, 0);
+            return new ClassifyingResult(HandTypes.STRAIGHT, this.getRank(cards));
         };
 
         this.getRank = function(cards) {
