@@ -37,33 +37,26 @@ Card.cardScore = function(card) {
     return card.score();
 }
 
-function PlayerTurn(_name, _hand, _classifier) {
+function PlayerTurn(_name, _hand) {
     this.name       = _name;
     this.hand       = _hand;
-    this.classifier = _classifier;
+    this.handResult = PokerHandClassifiers.getResult(_hand);
 
     this.rankOnHand = function() {
-        return this.classifier.name;
+        return this.handResult.handType.name;
     };
 
     this.compareTo = function(_otherPlayer) {
-        var returnVal = this.classifier.compareTo(_otherPlayer.classifier);
-        if(returnVal === 0) {
-            return _otherPlayer.classifier.getRank(_otherPlayer.hand) - this.classifier.getRank(this.hand);
-        } else {
-            return returnVal;
-        }
+        return this.handResult.compareTo(_otherPlayer.handResult);
     };
 }
 
 PlayerTurn.create = function(_name, _shortCards) {
     var hand       = _shortCards.map(Card.fromCode);
-    var classifier = PokerHandClassifiers.matches(hand);
-    return new PlayerTurn(_name, hand, classifier);
+    return new PlayerTurn(_name, hand);
 };
 
 function Casino(_player1, _player2) {
-
     this.judge = function() {
         var winner = _player1.compareTo(_player2) < 0 ? _player1 : _player2;
         return winner.name + " wins. - with " + winner.rankOnHand().toLowerCase();

@@ -30,13 +30,20 @@ var HandTypes = {
 var ClassifyingResult = function(_handType, _rank) {
     this.handType = _handType;
     this.rank = _rank;
+
+    this.compareTo = function(_another) {
+        var handTypeOrder = _another.handType.order - this.handType.order;
+        if(handTypeOrder === 0) {
+            return _another.rank - this.rank;
+        } else {
+            return handTypeOrder;
+        }
+    };
 };
 
 var PokerHandClassifiers = (function() {
 
     function HighCardClassifier(others) {
-        this.name = HandTypes.HIGH_CARD.name;
-
         this.isClassifyAs = function(cards) {
             return others.every(isNotClassified(cards));
         };
@@ -51,8 +58,6 @@ var PokerHandClassifiers = (function() {
     }
 
     function StraightClassifier() {
-        this.name = HandTypes.STRAIGHT.name;
-
         this.isClassifyAs = function(cards) {
            return isStraight(cards);
         };
@@ -76,8 +81,6 @@ var PokerHandClassifiers = (function() {
     }
 
     function FlushClassifier() {
-        this.name = HandTypes.FLUSH.name;
-
         this.isClassifyAs = function(cards) {
             return cards.every(haveSameSuite);
         };
@@ -127,8 +130,6 @@ var PokerHandClassifiers = (function() {
     }
 
     function CompositeClassifier(_classifiers, _handType) {
-        this.name = _handType.name;
-
         this.isClassifyAs = function(cards) {
             return _classifiers.every(isClassified(cards));
         };
@@ -143,7 +144,6 @@ var PokerHandClassifiers = (function() {
         }
     }
 
-
     var pair          = new PairClassifier(1, HandTypes.PAIR),
         twoPairs      = new PairClassifier(2, HandTypes.TWO_PAIRS),
         threeOfKind   = new OfKindClassifier(3, HandTypes.THREE_OF_A_KIND),
@@ -156,14 +156,12 @@ var PokerHandClassifiers = (function() {
 
     var classifiers   = [ straightflush, fourOfKind, fullhouse, flush, straight, threeOfKind, twoPairs, pair, highCard];
 
-    classifiers.forEach(function(self) {
-        self.compareTo = function(_other) {
-            return classifiers.indexOf(self) - classifiers.indexOf(_other);
-        }
-    });
-
     var matches = function(cards) {
         return classifiers.filter(function(classifier) { return classifier.isClassifyAs(cards) })[0];
+    };
+
+    var getResult = function(cards) {
+        return matches(cards).getResult(cards);
     };
 
     return {
@@ -173,7 +171,8 @@ var PokerHandClassifiers = (function() {
         OfKindClassifier : OfKindClassifier,
         PairClassifier : PairClassifier,
         CompositeClassifier : CompositeClassifier,
-        matches: matches
+        matches: matches,
+        getResult: getResult
     };
 
 }());

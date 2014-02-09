@@ -67,10 +67,28 @@ describe('PokerGame', function () {
             {constName : 'FOUR_OF_A_KIND', order: 7 },
             {constName : 'STRAIGHT_FLUSH', order: 8 }
         ].forEach(function(e) {
-                it('A const name ' + e.constName + ' should have an order of ' + e.order, function() {
-                    expect(HandTypes[e.constName].order).toBe(e.order);
-                });
+            it('A const name ' + e.constName + ' should have an order of ' + e.order, function() {
+                expect(HandTypes[e.constName].order).toBe(e.order);
             });
+        });
+    });
+
+    describe('ClassifyingResult', function() {
+        describe('compare()', function() {
+            it('should order by handType order', function() {
+                var a = new ClassifyingResult(HandTypes.STRAIGHT_FLUSH, 0);
+                var b = new ClassifyingResult(HandTypes.TWO_PAIRS, 0);
+
+                expect(a.compareTo(b)).toBeLessThan(0);
+            });
+
+            it('should order by rank if handType are equals', function() {
+                var a = new ClassifyingResult(HandTypes.STRAIGHT, 6);
+                var b = new ClassifyingResult(HandTypes.STRAIGHT, 3);
+
+                expect(a.compareTo(b)).toBeLessThan(0);
+            });
+        });
     });
 
     describe('Classifiers', function() {
