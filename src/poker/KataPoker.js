@@ -47,7 +47,12 @@ function PlayerTurn(_name, _hand, _classifier) {
     };
 
     this.compareTo = function(_otherPlayer) {
-        return this.classifier.compareTo(_otherPlayer.classifier);
+        var returnVal = this.classifier.compareTo(_otherPlayer.classifier);
+        if(returnVal === 0) {
+            return _otherPlayer.classifier.getRank(_otherPlayer.hand) - this.classifier.getRank(this.hand);
+        } else {
+            return returnVal;
+        }
     };
 }
 
