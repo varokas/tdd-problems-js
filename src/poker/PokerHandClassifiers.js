@@ -1,7 +1,7 @@
 /*jshint bitwise: true, curly: false, eqeqeq: true, forin: true,
 immed: true, latedef: true, newcap: true, noarg: true, noempty: true,
 nonew: true, regexp: true, undef: true, globalstrict: true, trailing: true*/
-/*global */
+/* global Card */
 
 'use strict';
 
@@ -53,7 +53,7 @@ var PokerHandClassifiers = (function() {
         };
 
         function isNotClassified(cards) {
-            return function(classifier) { return classifier.isClassifyAs(cards) === false; }
+            return function(classifier) { return classifier.isClassifyAs(cards) === false; };
         }
     }
 
@@ -140,7 +140,9 @@ var PokerHandClassifiers = (function() {
 
 
         function isClassified(cards) {
-            return function (classifier) { return classifier.isClassifyAs(cards); }
+            return function (classifier) {
+                return classifier.isClassifyAs(cards);
+            };
         }
     }
 
@@ -157,7 +159,7 @@ var PokerHandClassifiers = (function() {
     var classifiers   = [ straightflush, fourOfKind, fullhouse, flush, straight, threeOfKind, twoPairs, pair, highCard];
 
     var matches = function(cards) {
-        return classifiers.filter(function(classifier) { return classifier.isClassifyAs(cards) })[0];
+        return classifiers.filter(function(classifier) { return classifier.isClassifyAs(cards); })[0];
     };
 
     var getResult = function(cards) {

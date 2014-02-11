@@ -3,7 +3,7 @@ immed: true, latedef: true, newcap: true, noarg: true, noempty: true,
 nonew: true, regexp: true, undef: true, globalstrict: true, trailing: true*/
 
 /* global PokerHandClassifiers */
-"use strict";
+'use strict';
 
 function Card(_rank, _suite) {
     this.rank  = _rank;
@@ -31,11 +31,11 @@ Card.fromCode = function(code) {
 
 Card.comparator = function(a, b) {
     return a.score() - b.score();
-}
+};
 
 Card.cardScore = function(card) {
     return card.score();
-}
+};
 
 function PlayerTurn(_name, _hand) {
     this.name       = _name;
