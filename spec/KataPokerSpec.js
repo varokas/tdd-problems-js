@@ -138,8 +138,10 @@ describe('PokerGame', function () {
         describe('CompositeClassifier', function() {
             it("getResult() returns the hand type given", function() {
                 var givenHandType = HandTypes.FULL_HOUSE;
+                var player = PlayerTurn.create('White', ['3S', '7D', '5S', '4S', '6H']);
+                var hand = player.hand;
 
-                expect((new PokerHandClassifiers.CompositeClassifier([], givenHandType)).getResult().handType).toBe(givenHandType);
+                expect((new PokerHandClassifiers.CompositeClassifier([], givenHandType)).getResult(hand).handType).toBe(givenHandType);
             });
         });
     });
@@ -260,7 +262,9 @@ describe('PokerGame', function () {
 
             it('should win a Straight Flush by highest card on hand', function() {
                 var black = PlayerTurn.create('Black', ['5S', '6S', '7S', '8S', '9S']);
+                console.log(black.handResult);
                 var white = PlayerTurn.create('White', ['4H', '5H', '6H', '7H', '8H']);
+                console.log(white.handResult);
                 expect(new Casino(black, white).judge()).toEqual('Black wins. - with straight flush');
             });
         });

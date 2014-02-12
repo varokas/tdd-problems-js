@@ -52,7 +52,7 @@ function PlayerTurn(_name, _hand) {
 }
 
 PlayerTurn.create = function(_name, _shortCards) {
-    var hand       = _shortCards.map(Card.fromCode);
+    var hand = _shortCards.map(Card.fromCode);
     return new PlayerTurn(_name, hand);
 };
 

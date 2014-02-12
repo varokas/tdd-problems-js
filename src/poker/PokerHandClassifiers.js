@@ -31,10 +31,10 @@ var ClassifyingResult = function(_handType, _rank) {
     this.handType = _handType;
     this.rank = _rank;
 
-    this.compareTo = function(_another) {
-        var handTypeOrder = _another.handType.order - this.handType.order;
-        if(handTypeOrder === 0) {
-            return _another.rank - this.rank;
+    this.compareTo = function(_anotherPlayer) {
+        var handTypeOrder = _anotherPlayer.handType.order - this.handType.order;
+        if (handTypeOrder === 0) {
+            return _anotherPlayer.rank - this.rank;
         } else {
             return handTypeOrder;
         }
@@ -51,6 +51,7 @@ var PokerHandClassifiers = (function() {
         this.getResult = function(cards) {
             return new ClassifyingResult(HandTypes.HIGH_CARD, 0);
         };
+
 
         function isNotClassified(cards) {
             return function(classifier) { return classifier.isClassifyAs(cards) === false; };
@@ -70,6 +71,7 @@ var PokerHandClassifiers = (function() {
             var sortedHands = cards.sort(Card.comparator);
             return sortedHands[sortedHands.length - 1].score();
         };
+
 
         function isStraight(cards) {
            var actualScores   = cards.map(Card.cardScore).sort(),
@@ -124,6 +126,7 @@ var PokerHandClassifiers = (function() {
             return new ClassifyingResult(_handType, 0);
         };
 
+
         function isPair(count) {
             return count === 2;
         }
@@ -135,7 +138,13 @@ var PokerHandClassifiers = (function() {
         };
 
         this.getResult = function(cards) {
-            return new ClassifyingResult(_handType, 0);
+            // return new ClassifyingResult(_handType, 0);
+            return new ClassifyingResult(_handType, this.getRank(cards));
+        };
+
+        this.getRank = function(cards) {
+            var sortedHands = cards.sort(Card.comparator);
+            return sortedHands[sortedHands.length - 1].score();
         };
 
 
@@ -154,7 +163,7 @@ var PokerHandClassifiers = (function() {
         fullhouse     = new CompositeClassifier([pair, threeOfKind], HandTypes.FULL_HOUSE),
         fourOfKind    = new OfKindClassifier(4, HandTypes.FOUR_OF_A_KIND),
         straightflush = new CompositeClassifier([straight, flush], HandTypes.STRAIGHT_FLUSH),
-        highCard      = new HighCardClassifier([ straightflush, fourOfKind, fullhouse, flush, straight, threeOfKind, twoPairs, pair ]);
+        highCard      = new HighCardClassifier([straightflush, fourOfKind, fullhouse, flush, straight, threeOfKind, twoPairs, pair]);
 
     var classifiers   = [ straightflush, fourOfKind, fullhouse, flush, straight, threeOfKind, twoPairs, pair, highCard];
 
