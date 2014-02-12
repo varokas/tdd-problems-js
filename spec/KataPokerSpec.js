@@ -262,10 +262,16 @@ describe('PokerGame', function () {
 
             it('should win a Straight Flush by highest card on hand', function() {
                 var black = PlayerTurn.create('Black', ['5S', '6S', '7S', '8S', '9S']);
-                console.log(black.handResult);
                 var white = PlayerTurn.create('White', ['4H', '5H', '6H', '7H', '8H']);
-                console.log(white.handResult);
                 expect(new Casino(black, white).judge()).toEqual('Black wins. - with straight flush');
+            });
+
+            it('should win a Flush by highest card on hand', function() {
+                var black = PlayerTurn.create('Black', ['2H', '4H', '6H', '8H', 'TH']);
+                console.log(black.handResult);
+                var white = PlayerTurn.create('White', ['1S', '3S', '5S', '7S', '9S']);
+                console.log(white.handResult);
+                expect(new Casino(black, white).judge()).toEqual('Black wins. - with flush');
             });
         });
 
